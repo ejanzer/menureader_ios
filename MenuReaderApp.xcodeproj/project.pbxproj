@@ -22,6 +22,9 @@
 		7EA99AD818D8CADF00370E85 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA99ABC18D8CADE00370E85 /* CoreData.framework */; };
 		7EA99AE018D8CADF00370E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA99ADE18D8CADF00370E85 /* InfoPlist.strings */; };
 		7EA99AE218D8CADF00370E85 /* MenuReaderAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA99AE118D8CADF00370E85 /* MenuReaderAppTests.m */; };
+		7EA99AEC18D8CB8500370E85 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */; };
+		7EA99AF018D8D2B800370E85 /* CMRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA99AEE18D8D2B800370E85 /* CMRViewController.m */; };
+		7EA99AF118D8D2B800370E85 /* CMRViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EA99AEF18D8D2B800370E85 /* CMRViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,10 @@
 		7EA99ADD18D8CADF00370E85 /* MenuReaderAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MenuReaderAppTests-Info.plist"; sourceTree = "<group>"; };
 		7EA99ADF18D8CADF00370E85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EA99AE118D8CADF00370E85 /* MenuReaderAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuReaderAppTests.m; sourceTree = "<group>"; };
+		7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		7EA99AED18D8D2B700370E85 /* CMRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRViewController.h; sourceTree = "<group>"; };
+		7EA99AEE18D8D2B800370E85 /* CMRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRViewController.m; sourceTree = "<group>"; };
+		7EA99AEF18D8D2B800370E85 /* CMRViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CMRViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +123,11 @@
 			isa = PBXGroup;
 			children = (
 				7EA99AC718D8CADE00370E85 /* CMRAppDelegate.h */,
+				7EA99AED18D8D2B700370E85 /* CMRViewController.h */,
+				7EA99AEE18D8D2B800370E85 /* CMRViewController.m */,
+				7EA99AEF18D8D2B800370E85 /* CMRViewController.xib */,
 				7EA99AC818D8CADE00370E85 /* CMRAppDelegate.m */,
+				7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */,
 				7EA99ACD18D8CADF00370E85 /* Images.xcassets */,
 				7EA99ACA18D8CADE00370E85 /* MenuReaderApp.xcdatamodeld */,
 				7EA99ABF18D8CADE00370E85 /* Supporting Files */,
@@ -201,6 +212,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "___FULLUSERNAME___";
 				TargetAttributes = {
+					7EA99AB218D8CADE00370E85 = {
+						DevelopmentTeam = RC6K568TV4;
+					};
 					7EA99AD218D8CADF00370E85 = {
 						TestTargetID = 7EA99AB218D8CADE00370E85;
 					};
@@ -231,6 +245,8 @@
 			files = (
 				7EA99AC318D8CADE00370E85 /* InfoPlist.strings in Resources */,
 				7EA99ACE18D8CADF00370E85 /* Images.xcassets in Resources */,
+				7EA99AEC18D8CB8500370E85 /* Storyboard.storyboard in Resources */,
+				7EA99AF118D8D2B800370E85 /* CMRViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +268,7 @@
 				7EA99ACC18D8CADE00370E85 /* MenuReaderApp.xcdatamodeld in Sources */,
 				7EA99AC518D8CADE00370E85 /* main.m in Sources */,
 				7EA99AC918D8CADE00370E85 /* CMRAppDelegate.m in Sources */,
+				7EA99AF018D8D2B800370E85 /* CMRViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +385,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MenuReaderApp/MenuReaderApp-Prefix.pch";
 				INFOPLIST_FILE = "MenuReaderApp/MenuReaderApp-Info.plist";
@@ -381,6 +399,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MenuReaderApp/MenuReaderApp-Prefix.pch";
 				INFOPLIST_FILE = "MenuReaderApp/MenuReaderApp-Info.plist";
