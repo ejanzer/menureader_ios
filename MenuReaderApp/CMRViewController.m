@@ -62,7 +62,6 @@
 - (void)showImagePickerForSourceType:(UIImagePickerControllerSourceType)sourceType {
     
     if (self.imageView.isAnimating) {
-        // Is this if it's a movie playing in the imageView?
         [self.imageView stopAnimating];
     }
     
@@ -71,7 +70,6 @@
         [self.capturedImages removeAllObjects];
     }
     
-    // TODO: Reset captured images to 0 (see tutorial)
     
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     
