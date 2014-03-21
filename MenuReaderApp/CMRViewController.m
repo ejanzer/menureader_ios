@@ -14,11 +14,15 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @property (nonatomic) UIImagePickerController *imagePickerController;
-@property (nonatomic) NSMutableArray *capturedImages;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
+
+@property (weak, nonatomic) IBOutlet UILabel *charLabel;
 
 @end
 
 @implementation CMRViewController
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,7 +36,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.capturedImages = [[NSMutableArray alloc] init];
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
@@ -41,7 +44,12 @@
         [toolbarItems removeObjectAtIndex:2];
         [self.toolBar setItems:toolbarItems animated:NO];
     }
-
+    
+    // TODO: If there is no image in the UIImageView, disable the upload button.
+    if (!self.imageView.image) {
+        [self.uploadButton setEnabled:NO];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,16 +69,6 @@
 
 - (void)showImagePickerForSourceType:(UIImagePickerControllerSourceType)sourceType {
     
-    if (self.imageView.isAnimating) {
-        [self.imageView stopAnimating];
-    }
-    
-    if (self.capturedImages.count > 0) {
-        // Get rid of any leftover captured images.
-        [self.capturedImages removeAllObjects];
-    }
-    
-    
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     
     // What does this line do?
@@ -78,6 +76,9 @@
     
     // Set the source type for the imagePickerController as Photo Library or Camera.
     imagePickerController.sourceType = sourceType;
+    
+    // Allow editing.
+    imagePickerController.allowsEditing = YES;
 
     // Sets self as the delegate.
     imagePickerController.delegate = self;
@@ -95,32 +96,53 @@
     [self presentViewController:self.imagePickerController animated:YES completion:nil];
 }
 
-- (void)finishAndUpdate {
-    // I might not need to use this if I'm not handling multiple images – I can probably just put this into didFinishPickingMediaWithInfo.
-    [self dismissViewControllerAnimated:YES completion:NULL]; // why null instead of nil?
-    if ([self.capturedImages count] > 0) {
-        if ([self.capturedImages count] == 1) {
-            // Camera took a single picture.
-            // TODO: Send it away for processing.
-            [self.imageView setImage:[self.capturedImages objectAtIndex:0]];
-        } else {
-            // Can use the list of images for animation. I don't think I'll be doing that.
-        }
-        
-        // Clear captured images to be ready to start again.
-        [self.capturedImages removeAllObjects];
-    }
-    self.imagePickerController = nil;
+- (IBAction)uploadImage:(id)sender {
+    
+    
+    // Get the image from the UIView
+    NSData *imageData = UIImagePNGRepresentation([self.imageView image]);
+
+    NSString *imageString = [imageData base64EncodedStringWithOptions:NSUTF8StringEncoding];
+
+    NSData *b64data = [imageString dataUsingEncoding:NSDataBase64DecodingIgnoreUnknownCharacters];
+    
+    // Put it into a URL request
+    NSString *url = @"http://5baca10.ngrok.com/upload";
+    
+    // Create request object.
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    // Set request method.
+    [request setHTTPMethod: @"POST"];
+    
+    // And the content-type
+    [request setValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:@"base64" forHTTPHeaderField:@"Content-transfer-encoding"];
+    
+    // Create session object with default configurations.
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    // Create upload task.
+    NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:b64data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSString *responseString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        [self.charLabel setText:responseString];
+        [self.charLabel setNeedsDisplay];
+    }];
+    
+    [uploadTask resume];
+    
 }
 
 #pragma mark – UIImagePickerControllerDelegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *image = [info valueForKey:UIImagePickerControllerEditedImage];
     
-    [self.capturedImages addObject:image];
-    
-    [self finishAndUpdate];
+    [self dismissViewControllerAnimated:YES completion:NULL]; // why null instead of nil?
+    [self.imageView setImage:image];
+    [self.uploadButton setEnabled:YES];
+    self.imagePickerController = nil;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

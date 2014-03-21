@@ -34,22 +34,70 @@
                                 </items>
                             </toolbar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H7l-ck-gPx">
-                                <rect key="frame" x="-15" y="0.0" width="335" height="517"/>
+                                <rect key="frame" x="-13" y="-1" width="335" height="517"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IBR-uS-7if">
+                                <rect key="frame" x="122" y="450" width="76" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Photo Picker" id="MKJ-zK-bFR"/>
+                    <navigationItem key="navigationItem" title="Photo Picker" id="MKJ-zK-bFR">
+                        <barButtonItem key="rightBarButtonItem" title="Upload" id="eVF-UC-bMe">
+                            <connections>
+                                <action selector="uploadImage:" destination="YIo-U6-5Zn" id="3Bn-q0-Kin"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="charLabel" destination="IBR-uS-7if" id="8Ms-J6-OOm"/>
                         <outlet property="imageView" destination="H7l-ck-gPx" id="vEO-LN-Fs4"/>
                         <outlet property="toolBar" destination="bzb-rd-hYh" id="cpk-dB-HnP"/>
+                        <outlet property="uploadButton" destination="eVF-UC-bMe" id="9sQ-S2-3J5"/>
+                        <segue destination="634-pH-7zy" kind="push" id="9I3-H1-zsS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qk9-Pw-gnc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1549" y="-35"/>
+        </scene>
+        <!--Dish View Controller - Dish Name-->
+        <scene sceneID="yIt-ka-kBT">
+            <objects>
+                <viewController id="634-pH-7zy" customClass="CMRDishViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="99m-9r-R8J"/>
+                        <viewControllerLayoutGuide type="bottom" id="sQh-EG-QTM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="agF-Ua-Oao">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Dish text" translatesAutoresizingMaskIntoConstraints="NO" id="YVF-mZ-LgK">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Dish Name" id="saE-OW-pWG"/>
+                    <connections>
+                        <outlet property="dishName" destination="saE-OW-pWG" id="lyA-eX-QpW"/>
+                        <outlet property="dishText" destination="YVF-mZ-LgK" id="zhj-1q-TmQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h60-K2-yQW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1998" y="-35"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ppj-pg-1eG">
