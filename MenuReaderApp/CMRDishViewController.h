@@ -10,4 +10,10 @@
 
 @interface CMRDishViewController : UIViewController
 
+@property(nonatomic) NSString* dishNameString;
+
+@property(nonatomic) NSString* dishTextString;
+
+@property(nonatomic) NSData* dishJSONData;
+
 @end

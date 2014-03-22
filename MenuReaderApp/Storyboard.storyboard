@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller - Photo Picker-->
+        <!--View Controller - Menu Reader-->
         <scene sceneID="8wd-eZ-sHq">
             <objects>
                 <viewController id="YIo-U6-5Zn" customClass="CMRViewController" sceneMemberID="viewController">
@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bzb-rd-hYh">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzb-rd-hYh">
                                 <rect key="frame" x="0.0" y="517" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
@@ -33,22 +33,26 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H7l-ck-gPx">
-                                <rect key="frame" x="-13" y="-1" width="335" height="517"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H7l-ck-gPx">
+                                <rect key="frame" x="0.0" y="0.0" width="334" height="517"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="517" id="Gpt-VZ-xep"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IBR-uS-7if">
-                                <rect key="frame" x="122" y="450" width="76" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bzb-rd-hYh" firstAttribute="top" secondItem="H7l-ck-gPx" secondAttribute="bottom" id="9Jv-U6-j7a"/>
+                            <constraint firstItem="bzb-rd-hYh" firstAttribute="leading" secondItem="H7l-ck-gPx" secondAttribute="leading" id="Udt-jE-r2R"/>
+                            <constraint firstItem="H7l-ck-gPx" firstAttribute="leading" secondItem="xGt-RH-7Ch" secondAttribute="leading" id="XkY-sB-zkh"/>
+                            <constraint firstAttribute="trailing" secondItem="bzb-rd-hYh" secondAttribute="trailing" id="lCa-PC-mKy"/>
+                            <constraint firstAttribute="trailing" secondItem="H7l-ck-gPx" secondAttribute="trailing" constant="-14" id="rbJ-xo-8rt"/>
+                            <constraint firstItem="H7l-ck-gPx" firstAttribute="top" secondItem="xGt-RH-7Ch" secondAttribute="top" id="tbw-ij-8E7"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Photo Picker" id="MKJ-zK-bFR">
+                    <navigationItem key="navigationItem" title="Menu Reader" id="MKJ-zK-bFR">
                         <barButtonItem key="rightBarButtonItem" title="Upload" id="eVF-UC-bMe">
                             <connections>
                                 <action selector="uploadImage:" destination="YIo-U6-5Zn" id="3Bn-q0-Kin"/>
@@ -56,18 +60,17 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="charLabel" destination="IBR-uS-7if" id="8Ms-J6-OOm"/>
                         <outlet property="imageView" destination="H7l-ck-gPx" id="vEO-LN-Fs4"/>
                         <outlet property="toolBar" destination="bzb-rd-hYh" id="cpk-dB-HnP"/>
                         <outlet property="uploadButton" destination="eVF-UC-bMe" id="9sQ-S2-3J5"/>
-                        <segue destination="634-pH-7zy" kind="push" id="9I3-H1-zsS"/>
+                        <segue destination="634-pH-7zy" kind="push" identifier="dishSegue" id="9I3-H1-zsS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qk9-Pw-gnc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1549" y="-35"/>
         </scene>
-        <!--Dish View Controller - Dish Name-->
+        <!--Dish View Controller - Dish-->
         <scene sceneID="yIt-ka-kBT">
             <objects>
                 <viewController id="634-pH-7zy" customClass="CMRDishViewController" sceneMemberID="viewController">
@@ -79,20 +82,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Dish text" translatesAutoresizingMaskIntoConstraints="NO" id="YVF-mZ-LgK">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Vo-lv-k9v">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Dish Name" id="saE-OW-pWG"/>
+                    <navigationItem key="navigationItem" title="Dish" id="saE-OW-pWG"/>
                     <connections>
-                        <outlet property="dishName" destination="saE-OW-pWG" id="lyA-eX-QpW"/>
-                        <outlet property="dishText" destination="YVF-mZ-LgK" id="zhj-1q-TmQ"/>
+                        <outlet property="dishNavItem" destination="saE-OW-pWG" id="ljX-YN-tch"/>
+                        <outlet property="dishTextView" destination="9Vo-lv-k9v" id="QHY-cX-FT2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h60-K2-yQW" userLabel="First Responder" sceneMemberID="firstResponder"/>

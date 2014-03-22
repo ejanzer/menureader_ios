@@ -7,6 +7,7 @@
 //
 
 #import "CMRViewController.h"
+#import "CMRDishViewController.h"
 
 @interface CMRViewController ()
 
@@ -14,10 +15,10 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @property (nonatomic) UIImagePickerController *imagePickerController;
+@property (nonatomic) NSString *dishString;
+@property (nonatomic) NSData *dishData;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
-
-@property (weak, nonatomic) IBOutlet UILabel *charLabel;
 
 @end
 
@@ -101,13 +102,14 @@
     
     // Get the image from the UIView
     NSData *imageData = UIImagePNGRepresentation([self.imageView image]);
-
+    
     NSString *imageString = [imageData base64EncodedStringWithOptions:NSUTF8StringEncoding];
 
     NSData *b64data = [imageString dataUsingEncoding:NSDataBase64DecodingIgnoreUnknownCharacters];
+
     
     // Put it into a URL request
-    NSString *url = @"http://5baca10.ngrok.com/upload";
+    NSString *url = @"http://77ffa208.ngrok.com/upload";
     
     // Create request object.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -125,13 +127,32 @@
     
     // Create upload task.
     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:b64data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSString *responseString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        [self.charLabel setText:responseString];
-        [self.charLabel setNeedsDisplay];
+        
+        // capture the response from the server as a string
+//        self.dishString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        
+        self.dishData = data;
+        
+        
+        // queue push segue
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:@"dishSegue" sender:self];
+        });
     }];
     
     [uploadTask resume];
     
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"dishSegue"]) {
+        CMRDishViewController *dishVC = [segue destinationViewController];
+        dishVC.dishNameString = @"Dish Name";
+        dishVC.dishTextString = self.dishString;
+        dishVC.dishJSONData = self.dishData;
+    } else if ([segue.identifier isEqualToString:@"searchSegue"]) {
+        // do something else.
+    }
 }
 
 #pragma mark – UIImagePickerControllerDelegate
