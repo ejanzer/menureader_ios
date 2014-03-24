@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzb-rd-hYh">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bzb-rd-hYh">
                                 <rect key="frame" x="0.0" y="517" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
@@ -33,23 +33,14 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H7l-ck-gPx">
-                                <rect key="frame" x="0.0" y="0.0" width="334" height="517"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="517" id="Gpt-VZ-xep"/>
-                                </constraints>
-                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xEz-2A-6Pp" customClass="CMRScrollView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="453"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bzb-rd-hYh" firstAttribute="top" secondItem="H7l-ck-gPx" secondAttribute="bottom" id="9Jv-U6-j7a"/>
-                            <constraint firstItem="bzb-rd-hYh" firstAttribute="leading" secondItem="H7l-ck-gPx" secondAttribute="leading" id="Udt-jE-r2R"/>
-                            <constraint firstItem="H7l-ck-gPx" firstAttribute="leading" secondItem="xGt-RH-7Ch" secondAttribute="leading" id="XkY-sB-zkh"/>
                             <constraint firstAttribute="trailing" secondItem="bzb-rd-hYh" secondAttribute="trailing" id="lCa-PC-mKy"/>
-                            <constraint firstAttribute="trailing" secondItem="H7l-ck-gPx" secondAttribute="trailing" constant="-14" id="rbJ-xo-8rt"/>
-                            <constraint firstItem="H7l-ck-gPx" firstAttribute="top" secondItem="xGt-RH-7Ch" secondAttribute="top" id="tbw-ij-8E7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Menu Reader" id="MKJ-zK-bFR">
@@ -60,7 +51,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="imageView" destination="H7l-ck-gPx" id="vEO-LN-Fs4"/>
+                        <outlet property="scrollView" destination="xEz-2A-6Pp" id="cNK-59-RNX"/>
                         <outlet property="toolBar" destination="bzb-rd-hYh" id="cpk-dB-HnP"/>
                         <outlet property="uploadButton" destination="eVF-UC-bMe" id="9sQ-S2-3J5"/>
                         <segue destination="634-pH-7zy" kind="push" identifier="dishSegue" id="9I3-H1-zsS"/>
