@@ -11,23 +11,15 @@
 @interface CMRDishViewController ()
 @property (weak, nonatomic) IBOutlet UINavigationItem *dishNavItem;
 @property (weak, nonatomic) IBOutlet UITextView *dishTextView;
-
-
 @end
 
 @implementation CMRDishViewController
-
-@synthesize dishNameString;
-@synthesize dishTextString;
-@synthesize dishJSONData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.dishNameString = @"Dish Name";
-        self.dishTextString = @"Dish Text";
     }
     return self;
 }
@@ -41,8 +33,13 @@
     //self.dishNavItem.title = self.dishNameString;
 
     //self.dishTextView.text = self.dishTextString;
+    NSError *error = nil;
     
-    id jsonObject = [NSJSONSerialization JSONObjectWithData:self.dishJSONData options:NSJSONReadingMutableContainers error:nil];
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:self.dishJSONData options:NSJSONReadingMutableContainers error:&error];
+    
+    if (!jsonObject) {
+        NSLog(@"jsonObject does not exist. Error is %@", error);
+    }
     
     NSMutableString *contents = [[NSMutableString alloc] init];
     
@@ -89,7 +86,16 @@
             [contents appendFormat:@"%@ (%@): %@\n", character, pinyin, english];
         }
     }
-    NSLog(@"Contents: %@", contents);
+
+    NSArray *similar = [jsonObject objectForKey:@"similar"];
+    if (similar) {
+        [contents appendString:@"Similar dishes:\n"];
+        for (NSDictionary *dish in similar) {
+            NSString *chinName = [dish objectForKey:@"chin_name"];
+            NSString *engName = [dish objectForKey:@"eng_name"];
+            [contents appendFormat:@"%@: %@\n", chinName, engName];
+        }
+    }
     self.dishTextView.text = contents;
 }
 

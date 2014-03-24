@@ -25,8 +25,7 @@
 @implementation CMRViewController
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -34,8 +33,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
@@ -53,8 +51,7 @@
     
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -103,13 +100,8 @@
     // Get the image from the UIView
     NSData *imageData = UIImagePNGRepresentation([self.imageView image]);
     
-    NSString *imageString = [imageData base64EncodedStringWithOptions:NSUTF8StringEncoding];
-
-    NSData *b64data = [imageString dataUsingEncoding:NSDataBase64DecodingIgnoreUnknownCharacters];
-
-    
     // Put it into a URL request
-    NSString *url = @"http://77ffa208.ngrok.com/upload";
+    NSString *url = @"http://1193cd6b.ngrok.com/upload";
     
     // Create request object.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -118,15 +110,14 @@
     [request setHTTPMethod: @"POST"];
     
     // And the content-type
-    [request setValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"base64" forHTTPHeaderField:@"Content-transfer-encoding"];
+    [request setValue:@"image/png" forHTTPHeaderField:@"Content-Type"];
     
     // Create session object with default configurations.
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
     
     // Create upload task.
-    NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:b64data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:imageData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         // capture the response from the server as a string
 //        self.dishString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
@@ -144,11 +135,9 @@
     
 }
 
-- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"dishSegue"]) {
         CMRDishViewController *dishVC = [segue destinationViewController];
-        dishVC.dishNameString = @"Dish Name";
-        dishVC.dishTextString = self.dishString;
         dishVC.dishJSONData = self.dishData;
     } else if ([segue.identifier isEqualToString:@"searchSegue"]) {
         // do something else.
@@ -157,7 +146,7 @@
 
 #pragma mark – UIImagePickerControllerDelegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = [info valueForKey:UIImagePickerControllerEditedImage];
     
     [self dismissViewControllerAnimated:YES completion:NULL]; // why null instead of nil?

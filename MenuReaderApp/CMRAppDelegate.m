@@ -8,11 +8,13 @@
 
 #import "CMRAppDelegate.h"
 
-@implementation CMRAppDelegate
+@interface CMRAppDelegate ()
+@property (readwrite, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readwrite, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readwrite, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@end
 
-@synthesize managedObjectContext = _managedObjectContext;
-@synthesize managedObjectModel = _managedObjectModel;
-@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@implementation CMRAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
