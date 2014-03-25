@@ -77,7 +77,7 @@
     
     // Show translation information.
     NSArray *translation = [jsonObject objectForKey:@"translation"];
-    if (translation) {
+    if (translation != NULL) {
         [contents appendString:@"Translation: \n"];
         for (NSDictionary *word in translation) {
             NSString *character = [word objectForKey:@"char"];

@@ -51,6 +51,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="mainView" destination="xGt-RH-7Ch" id="fh5-dq-Llg"/>
                         <outlet property="scrollView" destination="xEz-2A-6Pp" id="cNK-59-RNX"/>
                         <outlet property="toolBar" destination="bzb-rd-hYh" id="cpk-dB-HnP"/>
                         <outlet property="uploadButton" destination="eVF-UC-bMe" id="9sQ-S2-3J5"/>

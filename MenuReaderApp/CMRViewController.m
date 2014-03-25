@@ -14,6 +14,7 @@
 @interface CMRViewController ()
 
 @property (weak, nonatomic) IBOutlet CMRScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UIView *mainView;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
@@ -109,26 +110,29 @@
 - (IBAction)uploadImage:(id)sender {
     
     // TODO: Crop the image.
-    
+    NSLog(@"Content offset x: %f, y: %f", self.scrollView.contentOffset.x, self.scrollView.contentOffset.y);
+    NSLog(@"rectView frame origin x: %f, y: %f", self.rectView.frame.origin.x, self.rectView.frame.origin.y);
+    NSLog(@"Self.rect origin x: %f, y: %f", self.rect.origin.x, self.rect.origin.y);
+ 
     CGRect cropRect;
     float scale = 1.0 / self.scrollView.zoomScale;
-    
-    cropRect.origin.x = self.scrollView.contentOffset.x + self.rectView.frame.origin.x* scale;
-    cropRect.origin.y = self.scrollView.contentOffset.y + self.rectView.frame.origin.y* scale;
+    NSLog(@"Scale: %f", scale);
+    float xOffset = self.rectView.frame.origin.x - self.scrollView.frame.origin.x;
+    float yOffset = self.rectView.frame.origin.y - self.scrollView.frame.origin.y;
+    cropRect.origin.x = scale * (self.scrollView.contentOffset.x + xOffset);
+    cropRect.origin.y = scale * (self.scrollView.contentOffset.y + yOffset);
     cropRect.size.width = self.rectView.frame.size.width * scale;
     cropRect.size.height = self.rectView.frame.size.height * scale;
     
-    
-    
-    CGRect visibleRect = [self.scrollView convertRect:self.rectView.bounds toView:self.imageView];
-    
-    NSLog(@"Visible rectangle: x: %f, y: %f, width: %f, height: %f", visibleRect.origin.x, visibleRect.origin.y, visibleRect.size.width, visibleRect.size.height);
-    
+    NSLog(@"Crop rectangle: x: %f, y: %f, width: %f, height: %f", cropRect.origin.x, cropRect.origin.y, cropRect.size.width, cropRect.size.height);
+
     UIImage *image = self.imageView.image;
-    
+
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
     UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
+    
+
     
     // Get the image from the UIView
     NSData *imageData = UIImagePNGRepresentation(croppedImage);
@@ -169,6 +173,27 @@
     
 }
 
+- (UIImage *)getCurrentImage {
+    float xOffset = self.scrollView.contentOffset.x + self.rect.origin.x;
+    float yOffset = self.scrollView.contentOffset.y + self.rect.origin.y;
+    NSLog(@"content offset x: %f, y: %f", self.scrollView.contentOffset.x, self.scrollView.contentOffset.y);
+    NSLog(@"rect offset x: %f, y: %f", self.rect.origin.x, self.rect.origin.y);
+    NSLog(@"content offset x: %f, y: %f", xOffset, yOffset);
+
+    
+//    float xOffset = (self.scrollView.contentOffset.x + self.rectView.frame.origin.x) * (1.0/self.scrollView.zoomScale);
+//    float yOffset = (self.scrollView.contentOffset.y + self.rectView.frame.origin.y) * (1.0/self.scrollView.zoomScale);
+    
+    CGRect rect = self.rectView.bounds;
+    UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0.0f);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextTranslateCTM(context, xOffset, yOffset);
+    [self.imageView.layer renderInContext:context];
+    UIImage *capturedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return capturedImage;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"dishSegue"]) {
         CMRDishViewController *dishVC = [segue destinationViewController];
@@ -201,7 +226,7 @@
         CMRRectView *rectView = [[CMRRectView alloc] initWithFrame:self.rect];
         self.rectView = rectView;
         
-        [self.scrollView addSubview:rectView];
+        [self.mainView addSubview:rectView];
     }
     
     NSLog(@"Scroll view X: %f", self.scrollView.frame.origin.x);
