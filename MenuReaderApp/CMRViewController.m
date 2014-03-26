@@ -139,7 +139,7 @@
     
     
     // Put it into a URL request
-    NSString *url = @"http://51f11fa4.ngrok.com/upload";
+    NSString *url = @"http://168aa1d4.ngrok.com/upload";
     
     // Create request object.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -204,6 +204,15 @@
 #pragma mark – UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    // Remove all existing subviews from scrollview.
+    if (self.rectView) {
+        [self.rectView removeFromSuperview];
+    }
+    if (self.imageView) {
+        [self.imageView removeFromSuperview];
+    }
+    
     UIImage *image = [info valueForKey:UIImagePickerControllerEditedImage];
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -225,23 +234,10 @@
     if (!self.rectView) {
         CMRRectView *rectView = [[CMRRectView alloc] initWithFrame:self.rect];
         self.rectView = rectView;
-        
-        [self.mainView addSubview:rectView];
     }
     
-    NSLog(@"Scroll view X: %f", self.scrollView.frame.origin.x);
-    NSLog(@"Scroll view Y: %f", self.scrollView.frame.origin.y);
-    NSLog(@"Scroll view height: %f", self.scrollView.frame.size.height);
-    NSLog(@"Scroll view width: %f", self.scrollView.frame.size.width);
-    NSLog(@"Rect view X: %f", self.rectView.frame.origin.x);
-    NSLog(@"Rect view Y: %f", self.rectView.frame.origin.y);
-    NSLog(@"Rect view height: %f", self.rectView.frame.size.height);
-    NSLog(@"Rect view width: %f", self.rectView.frame.size.width);
-    NSLog(@"Image view X: %f", self.imageView.frame.origin.x);
-    NSLog(@"Image view Y: %f", self.imageView.frame.origin.y);
-    NSLog(@"Image view height: %f", self.imageView.frame.size.height);
-    NSLog(@"Image view width: %f", self.imageView.frame.size.width);
-    
+    [self.mainView addSubview:self.rectView];
+
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

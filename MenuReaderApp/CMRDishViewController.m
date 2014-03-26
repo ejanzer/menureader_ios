@@ -39,64 +39,67 @@
     
     if (!jsonObject) {
         NSLog(@"jsonObject does not exist. Error is %@", error);
-    }
-    
-    NSMutableString *contents = [[NSMutableString alloc] init];
-    
-    // Get dish information, if it exists.
-    NSDictionary *dish = [jsonObject objectForKey:@"dish"];
-    if (dish) {
-        [contents appendString:@"Dish: \n"];
-        NSString *chinName = [dish objectForKey:@"chin_name"];
-        self.dishNavItem.title = chinName;
-        NSString *engName = [dish objectForKey:@"eng_name"];
-        [contents appendString:engName];
-        [contents appendString:@"\n"];
-        NSDictionary *tags = [dish objectForKey:@"tags"];
-        if (tags) {
-            [contents appendString:@"Tags:"];
-            for (NSString *tag in tags) {
-                [contents appendFormat:@"%@: %@, ", tag, [tags objectForKey:tag]];
-            }
-        }
-        [contents appendString:@"\n"];
-        NSArray *reviews = [dish objectForKey:@"reviews"];
-        if (reviews) {
-            [contents appendString:@"Reviews:\n"];
-            for (NSDictionary *review in reviews) {
-                NSString *username = [review objectForKey:@"username"];
-                NSString *date = [review objectForKey:@"date"];
-                NSString *text = [review objectForKey:@"text"];
-                [contents appendFormat:@"%@ %@\n%@", username, date, text];
-            }
-        }
-        [contents appendString:@"\n"];
+        self.dishNavItem.title = @"Error";
+        self.dishTextView.text = @"Error: No response from server.";
     } else {
-        [contents appendString:@"No dish found.\n------------"];
-    }
-    
-    // Show translation information.
-    NSArray *translation = [jsonObject objectForKey:@"translation"];
-    if (translation != NULL) {
-        [contents appendString:@"Translation: \n"];
-        for (NSDictionary *word in translation) {
-            NSString *character = [word objectForKey:@"char"];
-            NSString *pinyin = [word objectForKey:@"pinyin"];
-            NSString *english = [word objectForKey:@"english"];
-            [contents appendFormat:@"%@ (%@): %@\n", character, pinyin, english];
-        }
-    }
-
-    NSArray *similar = [jsonObject objectForKey:@"similar"];
-    if (similar) {
-        [contents appendString:@"Similar dishes:\n"];
-        for (NSDictionary *dish in similar) {
+        NSMutableString *contents = [[NSMutableString alloc] init];
+        
+        // Get dish information, if it exists.
+        NSDictionary *dish = [jsonObject objectForKey:@"dish"];
+        if (dish) {
+            [contents appendString:@"Dish: \n"];
             NSString *chinName = [dish objectForKey:@"chin_name"];
+            self.dishNavItem.title = chinName;
             NSString *engName = [dish objectForKey:@"eng_name"];
-            [contents appendFormat:@"%@: %@\n", chinName, engName];
+            [contents appendString:engName];
+            [contents appendString:@"\n"];
+            NSDictionary *tags = [dish objectForKey:@"tags"];
+            if (tags) {
+                [contents appendString:@"Tags:"];
+                for (NSString *tag in tags) {
+                    [contents appendFormat:@"%@: %@, ", tag, [tags objectForKey:tag]];
+                }
+            }
+            [contents appendString:@"\n"];
+            NSArray *reviews = [dish objectForKey:@"reviews"];
+            if (reviews) {
+                [contents appendString:@"Reviews:\n"];
+                for (NSDictionary *review in reviews) {
+                    NSString *username = [review objectForKey:@"username"];
+                    NSString *date = [review objectForKey:@"date"];
+                    NSString *text = [review objectForKey:@"text"];
+                    [contents appendFormat:@"%@ %@\n%@", username, date, text];
+                }
+            }
+            [contents appendString:@"\n"];
+        } else {
+            [contents appendString:@"No dish found.\n------------"];
         }
+        
+        // Show translation information.
+        NSArray *translation = [jsonObject objectForKey:@"translation"];
+        if (translation && translation != (id)[NSNull null]) {
+            NSLog(@"Translation is a %@", NSStringFromClass([translation class]));
+            [contents appendString:@"Translation: \n"];
+            for (NSDictionary *word in translation) {
+                NSString *character = [word objectForKey:@"char"];
+                NSString *pinyin = [word objectForKey:@"pinyin"];
+                NSString *english = [word objectForKey:@"english"];
+                [contents appendFormat:@"%@ (%@): %@\n", character, pinyin, english];
+            }
+        }
+        
+        NSArray *similar = [jsonObject objectForKey:@"similar"];
+        if (similar) {
+            [contents appendString:@"Similar dishes:\n"];
+            for (NSDictionary *dish in similar) {
+                NSString *chinName = [dish objectForKey:@"chin_name"];
+                NSString *engName = [dish objectForKey:@"eng_name"];
+                [contents appendFormat:@"%@: %@\n", chinName, engName];
+            }
+        }
+        self.dishTextView.text = contents;
     }
-    self.dishTextView.text = contents;
 }
 
 - (void)didReceiveMemoryWarning
