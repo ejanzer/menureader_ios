@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7E15720318E0C14F007DE1F6 /* CMRScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15720218E0C14F007DE1F6 /* CMRScrollView.m */; };
 		7E15720618E0C35B007DE1F6 /* CMRRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15720518E0C35B007DE1F6 /* CMRRectView.m */; };
 		7E15720918E47F70007DE1F6 /* CMRTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15720818E47F70007DE1F6 /* CMRTableViewController.m */; };
 		7EA99AB718D8CADE00370E85 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA99AB618D8CADE00370E85 /* Foundation.framework */; };
@@ -27,8 +26,6 @@
 		7EA99AE218D8CADF00370E85 /* MenuReaderAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA99AE118D8CADF00370E85 /* MenuReaderAppTests.m */; };
 		7EA99AEC18D8CB8500370E85 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */; };
 		7EA99AF018D8D2B800370E85 /* CMRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA99AEE18D8D2B800370E85 /* CMRViewController.m */; };
-		7EA99AF118D8D2B800370E85 /* CMRViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EA99AEF18D8D2B800370E85 /* CMRViewController.xib */; };
-		7EA99AFC18DCB28C00370E85 /* CMRDishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA99AFA18DCB28C00370E85 /* CMRDishViewController.m */; };
 		7EA99AFD18DCB28C00370E85 /* CMRDishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EA99AFB18DCB28C00370E85 /* CMRDishViewController.xib */; };
 /* End PBXBuildFile section */
 
@@ -43,8 +40,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7E15720118E0C14F007DE1F6 /* CMRScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRScrollView.h; sourceTree = "<group>"; };
-		7E15720218E0C14F007DE1F6 /* CMRScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRScrollView.m; sourceTree = "<group>"; };
 		7E15720418E0C35B007DE1F6 /* CMRRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRRectView.h; sourceTree = "<group>"; };
 		7E15720518E0C35B007DE1F6 /* CMRRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRRectView.m; sourceTree = "<group>"; };
 		7E15720718E47F6F007DE1F6 /* CMRTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTableViewController.h; sourceTree = "<group>"; };
@@ -70,9 +65,6 @@
 		7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		7EA99AED18D8D2B700370E85 /* CMRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRViewController.h; sourceTree = "<group>"; };
 		7EA99AEE18D8D2B800370E85 /* CMRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRViewController.m; sourceTree = "<group>"; };
-		7EA99AEF18D8D2B800370E85 /* CMRViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CMRViewController.xib; sourceTree = "<group>"; };
-		7EA99AF918DCB28C00370E85 /* CMRDishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRDishViewController.h; sourceTree = "<group>"; };
-		7EA99AFA18DCB28C00370E85 /* CMRDishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRDishViewController.m; sourceTree = "<group>"; };
 		7EA99AFB18DCB28C00370E85 /* CMRDishViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CMRDishViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -139,15 +131,10 @@
 				7EA99AC718D8CADE00370E85 /* CMRAppDelegate.h */,
 				7EA99AED18D8D2B700370E85 /* CMRViewController.h */,
 				7EA99AEE18D8D2B800370E85 /* CMRViewController.m */,
-				7E15720118E0C14F007DE1F6 /* CMRScrollView.h */,
-				7E15720218E0C14F007DE1F6 /* CMRScrollView.m */,
 				7E15720418E0C35B007DE1F6 /* CMRRectView.h */,
 				7E15720518E0C35B007DE1F6 /* CMRRectView.m */,
-				7EA99AEF18D8D2B800370E85 /* CMRViewController.xib */,
 				7EA99AC818D8CADE00370E85 /* CMRAppDelegate.m */,
 				7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */,
-				7EA99AF918DCB28C00370E85 /* CMRDishViewController.h */,
-				7EA99AFA18DCB28C00370E85 /* CMRDishViewController.m */,
 				7E15720718E47F6F007DE1F6 /* CMRTableViewController.h */,
 				7E15720818E47F70007DE1F6 /* CMRTableViewController.m */,
 				7EA99AFB18DCB28C00370E85 /* CMRDishViewController.xib */,
@@ -270,7 +257,6 @@
 				7EA99AFD18DCB28C00370E85 /* CMRDishViewController.xib in Resources */,
 				7EA99ACE18D8CADF00370E85 /* Images.xcassets in Resources */,
 				7EA99AEC18D8CB8500370E85 /* Storyboard.storyboard in Resources */,
-				7EA99AF118D8D2B800370E85 /* CMRViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,8 +280,6 @@
 				7EA99AC918D8CADE00370E85 /* CMRAppDelegate.m in Sources */,
 				7EA99AF018D8D2B800370E85 /* CMRViewController.m in Sources */,
 				7E15720918E47F70007DE1F6 /* CMRTableViewController.m in Sources */,
-				7E15720318E0C14F007DE1F6 /* CMRScrollView.m in Sources */,
-				7EA99AFC18DCB28C00370E85 /* CMRDishViewController.m in Sources */,
 				7E15720618E0C35B007DE1F6 /* CMRRectView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,12 +8,11 @@
 
 #import "CMRViewController.h"
 #import "CMRTableViewController.h"
-#import "CMRScrollView.h"
 #import "CMRRectView.h"
 
 @interface CMRViewController ()
 
-@property (weak, nonatomic) IBOutlet CMRScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *mainView;
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
