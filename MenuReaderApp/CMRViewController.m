@@ -7,7 +7,7 @@
 //
 
 #import "CMRViewController.h"
-#import "CMRDishViewController.h"
+#import "CMRTableViewController.h"
 #import "CMRScrollView.h"
 #import "CMRRectView.h"
 
@@ -126,6 +126,7 @@
     
     NSLog(@"Crop rectangle: x: %f, y: %f, width: %f, height: %f", cropRect.origin.x, cropRect.origin.y, cropRect.size.width, cropRect.size.height);
 
+//    UIImage *image = [self fixImageOrientation:self.imageView.image];
     UIImage *image = self.imageView.image;
 
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
@@ -139,7 +140,7 @@
     
     
     // Put it into a URL request
-    NSString *url = @"http://168aa1d4.ngrok.com/upload";
+    NSString *url = @"http://14a65481.ngrok.com/upload";
     
     // Create request object.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -154,11 +155,9 @@
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
     
+    // Commenting out for offline development.
     // Create upload task.
     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:imageData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        // capture the response from the server as a string
-//        self.dishString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         
         self.dishData = data;
         
@@ -171,18 +170,18 @@
     
     [uploadTask resume];
     
+    
+    // Adding for offline development. Delete or comment out later.
+    /*
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self performSegueWithIdentifier:@"dishSegue" sender:self];
+    });
+     */
 }
 
 - (UIImage *)getCurrentImage {
     float xOffset = self.scrollView.contentOffset.x + self.rect.origin.x;
     float yOffset = self.scrollView.contentOffset.y + self.rect.origin.y;
-    NSLog(@"content offset x: %f, y: %f", self.scrollView.contentOffset.x, self.scrollView.contentOffset.y);
-    NSLog(@"rect offset x: %f, y: %f", self.rect.origin.x, self.rect.origin.y);
-    NSLog(@"content offset x: %f, y: %f", xOffset, yOffset);
-
-    
-//    float xOffset = (self.scrollView.contentOffset.x + self.rectView.frame.origin.x) * (1.0/self.scrollView.zoomScale);
-//    float yOffset = (self.scrollView.contentOffset.y + self.rectView.frame.origin.y) * (1.0/self.scrollView.zoomScale);
     
     CGRect rect = self.rectView.bounds;
     UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0.0f);
@@ -196,9 +195,48 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"dishSegue"]) {
-        CMRDishViewController *dishVC = [segue destinationViewController];
+        CMRTableViewController *dishVC = [segue destinationViewController];
         dishVC.dishJSONData = self.dishData;
     }
+}
+
+- (UIImage *)fixImageOrientation:(UIImage *)image {
+    if (image.imageOrientation != UIImageOrientationUp) {
+        CGAffineTransform transform = CGAffineTransformIdentity;
+        switch (image.imageOrientation) {
+            case UIImageOrientationLeft:
+                CGAffineTransformTranslate(transform, image.size.width, image.size.height);
+                CGAffineTransformRotate(transform, M_PI_2);
+                break;
+            case UIImageOrientationRight:
+                CGAffineTransformTranslate(transform, image.size.width, image.size.height);
+                CGAffineTransformRotate(transform, -M_PI_2);
+                break;
+            case UIImageOrientationDown:
+                CGAffineTransformTranslate(transform, image.size.width, image.size.height);
+                CGAffineTransformRotate(transform, M_PI);
+                break;
+            default:
+                break;
+        }
+            CGContextRef context = CGBitmapContextCreate(NULL, image.size.width, image.size.height, CGImageGetBitsPerComponent(image.CGImage), 0, CGImageGetColorSpace(image.CGImage), CGImageGetBitmapInfo(image.CGImage));
+    
+            CGContextConcatCTM(context, transform);
+            switch (image.imageOrientation) {
+                case UIImageOrientationLeft:
+                case UIImageOrientationRight:
+                    CGContextDrawImage(context, CGRectMake(0, 0, image.size.height, image.size.width), image.CGImage);
+                    break;
+    
+                default:
+                    CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
+                    break;
+            }
+            CGImageRef cgimg = CGBitmapContextCreateImage(context);
+            image = [UIImage imageWithCGImage:cgimg];
+    }
+    
+    return image;
 }
 
 #pragma mark – UIImagePickerControllerDelegate

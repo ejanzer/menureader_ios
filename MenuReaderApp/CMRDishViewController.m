@@ -29,10 +29,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    // Set the dish name and dish text to the values passed in with the segue
-    //self.dishNavItem.title = self.dishNameString;
-
-    //self.dishTextView.text = self.dishTextString;
     NSError *error = nil;
     
     id jsonObject = [NSJSONSerialization JSONObjectWithData:self.dishJSONData options:NSJSONReadingMutableContainers error:&error];
