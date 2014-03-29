@@ -7,15 +7,15 @@
 //
 
 #import "CMRTableViewController.h"
+#import "CMRReviewTableViewCell.h"
 
 @interface CMRTableViewController ()
 
-@property (nonatomic) NSArray *dish;
-@property (nonatomic) NSArray *translation;
-@property (nonatomic) NSArray *reviews;
-@property (nonatomic) NSArray *similar;
-@property (nonatomic) NSArray *tags;
+@property (nonatomic) NSMutableArray *data;
 
+@property NSMutableArray *sections;
+@property NSMutableArray *cellIds;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 
 @end
 
@@ -34,15 +34,13 @@
     if (self) {
         if (self.dishJSONData) {
             [self parseJSON];
-            NSLog(@"Parsed JSON!");
+            if ([[self.sections objectAtIndex:0] isEqualToString:@"Dish"]) {
+                self.navItem.title = @"Dish";
+            } else {
+                self.navItem.title = @"Search";
+            }
         } else {
-            NSLog(@"No JSON data!");
-            NSDictionary *chars = [[NSDictionary alloc] initWithObjectsAndKeys:@"宫爆鸡丁", @"Chinese", nil];
-            NSDictionary *pinyin = [[NSDictionary alloc] initWithObjectsAndKeys:@"gongbaojiding", @"Pinyin", nil];
-            NSDictionary *english = [[NSDictionary alloc] initWithObjectsAndKeys:@"Kung Pao chicken", @"English", nil];
-            NSDictionary *description = [[NSDictionary alloc] initWithObjectsAndKeys:@"Spicy chicken with peanuts", @"Description", nil];
-            
-            self.testData = [[NSArray alloc] initWithObjects:chars, pinyin, english, description, nil];
+            // Do something
         }
         
     }
@@ -56,79 +54,39 @@
     if (!jsonObject) {
         NSLog(@"jsonObject does not exist. Error is %@", error);
     } else {
+        self.data = [[NSMutableArray alloc] init];
+        self.cellIds = [[NSMutableArray alloc] init];
+        self.sections = [[NSMutableArray alloc] init];
         
-        self.dish = [jsonObject objectForKey:@"dish"];
-        NSLog(@"Set self.dish to the jsonObject for dish");
-        
-        self.reviews = [jsonObject objectForKey:@"reviews"];
-        NSLog(@"Set self.reviews to the jsonObject reviews");
-        
-        self.tags = [jsonObject objectForKey:@"tags"];
-    
-        //self.translation = [jsonObject objectForKey:@"translation"];
-//        self.similar = [jsonObject objectForKey:@"similar"];
-        
-        //NSMutableString *contents = [[NSMutableString alloc] init];
-        
-        
-        // Get dish information, if it exists.
-        /*
-        NSDictionary *dish = [jsonObject objectForKey:@"dish"];
-        if (dish) {
-            [contents appendString:@"Dish: \n"];
-            NSString *chinName = [dish objectForKey:@"chin_name"];
-            NSString *engName = [dish objectForKey:@"eng_name"];
-            [contents appendString:chinName];
-            [contents appendString:engName];
-            [contents appendString:@"\n"];
-            NSDictionary *tags = [dish objectForKey:@"tags"];
-            if (tags) {
-                [contents appendString:@"Tags:"];
-                for (NSString *tag in tags) {
-                    [contents appendFormat:@"%@: %@, ", tag, [tags objectForKey:tag]];
-                }
-            }
-            [contents appendString:@"\n"];
-            NSArray *reviews = [dish objectForKey:@"reviews"];
-            if (reviews) {
-                [contents appendString:@"Reviews:\n"];
-                for (NSDictionary *review in reviews) {
-                    NSString *username = [review objectForKey:@"username"];
-                    NSString *date = [review objectForKey:@"date"];
-                    NSString *text = [review objectForKey:@"text"];
-                    [contents appendFormat:@"%@ %@\n%@", username, date, text];
-                }
-            }
-            [contents appendString:@"\n"];
-        } else {
-            [contents appendString:@"No dish found.\n------------"];
+        if ([jsonObject objectForKey:@"dish"] && [jsonObject objectForKey:@"dish"] != (id)[NSNull null]) {
+            [self.data addObject: [jsonObject objectForKey:@"dish"]];
+            [self.sections addObject: @"Dish"];
+            [self.cellIds addObject:@"DishCell"];
         }
-        
-        // Show translation information.
-        NSArray *translation = [jsonObject objectForKey:@"translation"];
-        if (translation && translation != (id)[NSNull null]) {
-            NSLog(@"Translation is a %@", NSStringFromClass([translation class]));
-            [contents appendString:@"Translation: \n"];
-            for (NSDictionary *word in translation) {
-                NSString *character = [word objectForKey:@"char"];
-                NSString *pinyin = [word objectForKey:@"pinyin"];
-                NSString *english = [word objectForKey:@"english"];
-                [contents appendFormat:@"%@ (%@): %@\n", character, pinyin, english];
-            }
+        if ([jsonObject objectForKey:@"reviews"] && [jsonObject objectForKey:@"reviews"] != (id)[NSNull null]) {
+            [self.data addObject: [jsonObject objectForKey:@"reviews"]];
+            [self.sections addObject: @"Reviews"];
+            [self.cellIds addObject:@"ReviewCell"];
+
         }
-        
-        // Get similar dishes.
-        NSArray *similar = [jsonObject objectForKey:@"similar"];
-        if (similar) {
-            [contents appendString:@"Similar dishes:\n"];
-            for (NSDictionary *dish in similar) {
-                NSString *chinName = [dish objectForKey:@"chin_name"];
-                NSString *engName = [dish objectForKey:@"eng_name"];
-                [contents appendFormat:@"%@: %@\n", chinName, engName];
-            }
+        if ([jsonObject objectForKey:@"tags"] && [jsonObject objectForKey:@"tags"] != (id)[NSNull null]) {
+            [self.data addObject: [jsonObject objectForKey:@"tags"]];
+            [self.sections addObject: @"Tags"];
+            [self.cellIds addObject:@"TagCell"];
+
         }
-        NSLog(@"Contents: %@", contents);
-         */
+        if ([jsonObject objectForKey:@"translation"] && [jsonObject objectForKey:@"translation"] != (id)[NSNull null]) {
+            [self.data addObject: [jsonObject objectForKey:@"translation"]];
+            [self.sections addObject: @"Translation"];
+            [self.cellIds addObject:@"TranslationCell"];
+
+        }
+        if ([[jsonObject objectForKey:@"similar"] count] > 0 && [jsonObject objectForKey:@"similar"] != (id)[NSNull null]) {
+            [self.data addObject: [jsonObject objectForKey:@"similar"]];
+            [self.sections addObject: @"Similar Dishes"];
+            [self.cellIds addObject:@"SimilarCell"];
+
+        }
     }
 }
 
@@ -144,47 +102,113 @@
 {
     // Return the number of sections.
     // This will be the length of the JSON dictionary - 1 section for dish, 1 for translation, etc.
-    return 2;
+    NSLog(@"Number of sections: %lu", [self.data count]);
+    return [self.data count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
     // How will I know how many rows to make for each section? Get the length of the list at that index?
-    
-    if (section == 0) {
-        return [self.dish count];
-    }
-    if (section == 1) {
-        return [self.reviews count];
-    }
 
-    return 0;
+    return [[self.data objectAtIndex:section] count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-
-    NSDictionary *dict = nil;
     
-    NSLog(@"Index path section: %li, row: %li", (long)indexPath.section, (long)indexPath.row);
+    static NSString *CellIdentifier = nil;
+    NSArray *data = [self.data objectAtIndex:indexPath.section];
+    NSDictionary *item = [data objectAtIndex:indexPath.row];
+    NSString *key = [[item allKeys] objectAtIndex:0];
     
-    if (indexPath.section == 0) {
-        dict = [self.dish objectAtIndex:indexPath.row];
-    } else if (indexPath.section == 1) {
-        dict = [self.reviews objectAtIndex:indexPath.row];
+    CellIdentifier = [self.cellIds objectAtIndex:indexPath.section];
+    
+    if ([CellIdentifier isEqual:@"ReviewCell"]) {
+        CMRReviewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        if (cell == nil) {
+            cell = [[CMRReviewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ReviewCell"];
+        }
+        cell.reviewUsernameLabel.text = [item objectForKey:@"username"];
+        cell.reviewDateLabel.text = [item objectForKey:@"date"];
+        cell.reviewTextView.text = [item objectForKey:@"text"];
+        
+        return cell;
     }
-    NSString *key = [[dict allKeys] objectAtIndex:0];
-    NSLog(@"key: %@", key);
-    cell.textLabel.text = key;
-    NSLog(@"object: %@", [dict objectForKey:key]);
-    cell.detailTextLabel.text = [dict objectForKey:key];
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BasicCell"];
+    }
+    
+    /*
+    switch (indexPath.section) {
+        case 0:
+            cell.textLabel.text = key;
+            break;
+        case 1:
+            cell.textLabel.text = [item objectForKey:key];
+        case 2:
+            cell.textLabel.text = key;
+            cell.detailTextLabel.text = [item objectForKey:key];
+        default:
+            break;
+     
+    }
+     */
+    // TODO: Fix these so they actually display things correctly. Just placeholders.
+    if ([CellIdentifier isEqual:@"DishCell"]) {
+        cell.textLabel.text = [item objectForKey:@"title"];
+        cell.detailTextLabel.text = [item objectForKey:@"data"];
+    } else if ([CellIdentifier isEqual:@"ReviewCell"]) {
+        cell.textLabel.text = [item objectForKey:key];
+    } else if ([CellIdentifier isEqual:@"TagCell"]) {
+        cell.textLabel.text = [item objectForKey:@"tag"];
+        cell.detailTextLabel.text = [item objectForKey:@"count"];
+    } else if ([CellIdentifier isEqual:@"TranslationCell"]) {
+        cell.textLabel.text = [item objectForKey:@"char"];
+        cell.detailTextLabel.text = [item objectForKey:@"english"];
+    } else if ([CellIdentifier isEqual:@"SimilarCell"]) {
+        cell.textLabel.text = [item objectForKey:@"title"];
+        cell.detailTextLabel.text = [item objectForKey:@"data"];
+    }
+
+    if ([CellIdentifier isEqual:@"SimilarCell"]) {
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    } else {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    
     return cell;
 }
 
 
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height = 50.0f;
+    
+    if ([[self.cellIds objectAtIndex:indexPath.section] isEqualToString:@"ReviewCell"]) {
+        NSString *text = [[[self.data objectAtIndex:indexPath.section] objectAtIndex:indexPath.row ] objectForKey:@"text"];
+        UITextView *textView = [[UITextView alloc] init];
+        textView.text = text;
+        CGSize size = [textView sizeThatFits:CGSizeMake(textView.frame.size.width, FLT_MAX)];
+        
+        if (size.height > 100.0f) {
+            NSLog(@"Height is greater than 100. Height: %f", size.height);
+            height = size.height;
+        } else {
+            NSLog(@"Height is less than 100. Height: %f", size.height);
+            height = 100.0f;
+        }
+    }
+    
+    return height;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [self.sections objectAtIndex:section];
+}
+ 
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

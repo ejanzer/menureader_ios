@@ -55,9 +55,12 @@
         [self.toolBar setItems:toolbarItems animated:NO];
     }
     
-    // TODO: If there is no image in the UIImageView, disable the upload button.
+    // If there's no image in the view, disable the upload button.
+    NSLog(@"Setting upload button enabled to: %d", self.imageView != nil);
     if (!self.imageView) {
         [self.uploadButton setEnabled:NO];
+    } else {
+        [self.uploadButton setEnabled:YES];
     }
     
     self.scrollView.delegate = self;
@@ -108,22 +111,16 @@
 
 - (IBAction)uploadImage:(id)sender {
     
-    // TODO: Crop the image.
-    NSLog(@"Content offset x: %f, y: %f", self.scrollView.contentOffset.x, self.scrollView.contentOffset.y);
-    NSLog(@"rectView frame origin x: %f, y: %f", self.rectView.frame.origin.x, self.rectView.frame.origin.y);
-    NSLog(@"Self.rect origin x: %f, y: %f", self.rect.origin.x, self.rect.origin.y);
+    [self.uploadButton setEnabled:NO];
  
     CGRect cropRect;
     float scale = 1.0 / self.scrollView.zoomScale;
-    NSLog(@"Scale: %f", scale);
     float xOffset = self.rectView.frame.origin.x - self.scrollView.frame.origin.x;
     float yOffset = self.rectView.frame.origin.y - self.scrollView.frame.origin.y;
     cropRect.origin.x = scale * (self.scrollView.contentOffset.x + xOffset);
     cropRect.origin.y = scale * (self.scrollView.contentOffset.y + yOffset);
     cropRect.size.width = self.rectView.frame.size.width * scale;
     cropRect.size.height = self.rectView.frame.size.height * scale;
-    
-    NSLog(@"Crop rectangle: x: %f, y: %f, width: %f, height: %f", cropRect.origin.x, cropRect.origin.y, cropRect.size.width, cropRect.size.height);
 
 //    UIImage *image = [self fixImageOrientation:self.imageView.image];
     UIImage *image = self.imageView.image;
@@ -165,10 +162,11 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self performSegueWithIdentifier:@"dishSegue" sender:self];
         });
+        
+        [self.uploadButton setEnabled:YES];
     }];
     
     [uploadTask resume];
-    
     
     // Adding for offline development. Delete or comment out later.
     /*
