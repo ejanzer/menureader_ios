@@ -54,6 +54,7 @@
     
     if (!jsonObject) {
         NSLog(@"jsonObject does not exist. Error is %@", error);
+        
     } else {
         self.data = [[NSMutableArray alloc] init];
         self.cellIds = [[NSMutableArray alloc] init];

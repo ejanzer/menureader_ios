@@ -90,14 +90,14 @@
     imagePickerController.sourceType = sourceType;
     
     // Allow editing.
-    imagePickerController.allowsEditing = YES;
-    //imagePickerController.allowsEditing = NO;
+    //imagePickerController.allowsEditing = YES;
+    imagePickerController.allowsEditing = NO;
 
     // Sets self as the delegate.
     imagePickerController.delegate = self;
     
     if (sourceType == UIImagePickerControllerSourceTypeCamera) {
-        // Once I have an overlay I can switch this to NO.
+        // If I make a custom overlay I can switch this to NO.
         imagePickerController.showsCameraControls = YES;
         
         // TODO: Set up overlay view here. (see tutorial)
@@ -113,6 +113,7 @@
     
     [self.uploadButton setEnabled:NO];
  
+    
     CGRect cropRect;
     float scale = 1.0 / self.scrollView.zoomScale;
     float xOffset = self.rectView.frame.origin.x - self.scrollView.frame.origin.x;
@@ -121,19 +122,21 @@
     cropRect.origin.y = scale * (self.scrollView.contentOffset.y + yOffset);
     cropRect.size.width = self.rectView.frame.size.width * scale;
     cropRect.size.height = self.rectView.frame.size.height * scale;
+     
+     
+    // Fix the orientation of the image before uploading.
+    UIImage *image = [self fixImageOrientation:self.imageView.image];
+    //UIImage *image = self.imageView.image;
 
-//    UIImage *image = [self fixImageOrientation:self.imageView.image];
-    UIImage *image = self.imageView.image;
 
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
     UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
     
-
     
     // Get the image from the UIView
     NSData *imageData = UIImagePNGRepresentation(croppedImage);
-    
+    //NSData *imageData = UIImagePNGRepresentation(image);
     
     // Put it into a URL request
     NSString *url = @"http://14a65481.ngrok.com/upload";
@@ -157,7 +160,6 @@
         
         self.dishData = data;
         
-        
         // queue push segue
         dispatch_async(dispatch_get_main_queue(), ^{
             [self performSegueWithIdentifier:@"dishSegue" sender:self];
@@ -176,20 +178,6 @@
      */
 }
 
-- (UIImage *)getCurrentImage {
-    float xOffset = self.scrollView.contentOffset.x + self.rect.origin.x;
-    float yOffset = self.scrollView.contentOffset.y + self.rect.origin.y;
-    
-    CGRect rect = self.rectView.bounds;
-    UIGraphicsBeginImageContextWithOptions(rect.size, YES, 0.0f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextTranslateCTM(context, xOffset, yOffset);
-    [self.imageView.layer renderInContext:context];
-    UIImage *capturedImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return capturedImage;
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"dishSegue"]) {
         CMRTableViewController *dishVC = [segue destinationViewController];
@@ -198,42 +186,22 @@
 }
 
 - (UIImage *)fixImageOrientation:(UIImage *)image {
-    if (image.imageOrientation != UIImageOrientationUp) {
-        CGAffineTransform transform = CGAffineTransformIdentity;
-        switch (image.imageOrientation) {
-            case UIImageOrientationLeft:
-                CGAffineTransformTranslate(transform, image.size.width, image.size.height);
-                CGAffineTransformRotate(transform, M_PI_2);
-                break;
-            case UIImageOrientationRight:
-                CGAffineTransformTranslate(transform, image.size.width, image.size.height);
-                CGAffineTransformRotate(transform, -M_PI_2);
-                break;
-            case UIImageOrientationDown:
-                CGAffineTransformTranslate(transform, image.size.width, image.size.height);
-                CGAffineTransformRotate(transform, M_PI);
-                break;
-            default:
-                break;
-        }
-            CGContextRef context = CGBitmapContextCreate(NULL, image.size.width, image.size.height, CGImageGetBitsPerComponent(image.CGImage), 0, CGImageGetColorSpace(image.CGImage), CGImageGetBitmapInfo(image.CGImage));
+    NSLog(@"Original image orientation: %ld", image.imageOrientation);
+    NSLog(@"Original image height: %f width: %f", image.size.height, image.size.width);
     
-            CGContextConcatCTM(context, transform);
-            switch (image.imageOrientation) {
-                case UIImageOrientationLeft:
-                case UIImageOrientationRight:
-                    CGContextDrawImage(context, CGRectMake(0, 0, image.size.height, image.size.width), image.CGImage);
-                    break;
+    if (image.imageOrientation == UIImageOrientationUp) return image;
     
-                default:
-                    CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
-                    break;
-            }
-            CGImageRef cgimg = CGBitmapContextCreateImage(context);
-            image = [UIImage imageWithCGImage:cgimg];
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    [image drawInRect:(CGRect){0, 0, image.size}];
+    UIImage *normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    NSLog(@"New image orientation: %ld", normalizedImage.imageOrientation);
+    NSLog(@"New image height: %f width: %f", normalizedImage.size.height, normalizedImage.size.width);
+    if (normalizedImage.imageOrientation == UIImageOrientationUp) {
+        NSLog(@"New image is right side up.");
     }
-    
-    return image;
+    return normalizedImage;
 }
 
 #pragma mark – UIImagePickerControllerDelegate
@@ -248,30 +216,43 @@
         [self.imageView removeFromSuperview];
     }
     
-    UIImage *image = [info valueForKey:UIImagePickerControllerEditedImage];
+    //UIImage *image = [info valueForKey:UIImagePickerControllerEditedImage];
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    
+    // Changing orientation. Move this step to uploadImage later.
+    //image = [self fixImageOrientation:image];
     
     [self dismissViewControllerAnimated:YES completion:nil];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    self.imageView = imageView;
-    [self.scrollView addSubview:imageView];
-    self.scrollView.contentSize = imageView.frame.size;
-    self.scrollView.maximumZoomScale = 3.0f;
     
+    if (!self.imageView) {
+        // Set up scrollview and imageview.
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        self.imageView = imageView;
+    } else {
+        self.imageView.image = image;
+    }
+
+    [self.scrollView addSubview:self.imageView];
+    self.scrollView.contentSize = self.imageView.frame.size;
+    self.scrollView.maximumZoomScale = 3.0f;
     CGRect scrollViewFrame = self.scrollView.frame;
     CGFloat scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width;
     CGFloat scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height;
     CGFloat minScale = MIN(scaleWidth, scaleHeight);
     self.scrollView.minimumZoomScale = minScale;
     self.scrollView.zoomScale = minScale;
+    
     [self.uploadButton setEnabled:YES];
     self.imagePickerController = nil;
     
     if (!self.rectView) {
         CMRRectView *rectView = [[CMRRectView alloc] initWithFrame:self.rect];
         self.rectView = rectView;
+        [self.mainView addSubview:self.rectView];
     }
     
-    [self.mainView addSubview:self.rectView];
+    NSLog(@"Original image orientation: %ld", image.imageOrientation);
+    NSLog(@"Original image height: %f width: %f", image.size.height, image.size.width);
 
 }
 
