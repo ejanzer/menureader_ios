@@ -56,7 +56,6 @@
     }
     
     // If there's no image in the view, disable the upload button.
-    NSLog(@"Setting upload button enabled to: %d", self.imageView != nil);
     if (!self.imageView) {
         [self.uploadButton setEnabled:NO];
     } else {
@@ -92,6 +91,7 @@
     
     // Allow editing.
     imagePickerController.allowsEditing = YES;
+    //imagePickerController.allowsEditing = NO;
 
     // Sets self as the delegate.
     imagePickerController.delegate = self;
