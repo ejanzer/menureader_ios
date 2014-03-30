@@ -72,7 +72,7 @@
         <!--Table View Controller - Dish-->
         <scene sceneID="c0I-t1-Wkd">
             <objects>
-                <tableViewController id="dcH-Mb-hjb" customClass="CMRTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="tableViewController" id="dcH-Mb-hjb" customClass="CMRTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="9xk-LM-mEC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

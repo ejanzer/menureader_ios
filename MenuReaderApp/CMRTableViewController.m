@@ -8,6 +8,7 @@
 
 #import "CMRTableViewController.h"
 #import "CMRReviewTableViewCell.h"
+#import "CMRAppDelegate.h"
 
 @interface CMRTableViewController ()
 
@@ -101,8 +102,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    // This will be the length of the JSON dictionary - 1 section for dish, 1 for translation, etc.
-    NSLog(@"Number of sections: %lu", [self.data count]);
     return [self.data count];
 }
 
@@ -120,7 +119,6 @@
     static NSString *CellIdentifier = nil;
     NSArray *data = [self.data objectAtIndex:indexPath.section];
     NSDictionary *item = [data objectAtIndex:indexPath.row];
-    NSString *key = [[item allKeys] objectAtIndex:0];
     
     CellIdentifier = [self.cellIds objectAtIndex:indexPath.section];
     
@@ -142,27 +140,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BasicCell"];
     }
     
-    /*
-    switch (indexPath.section) {
-        case 0:
-            cell.textLabel.text = key;
-            break;
-        case 1:
-            cell.textLabel.text = [item objectForKey:key];
-        case 2:
-            cell.textLabel.text = key;
-            cell.detailTextLabel.text = [item objectForKey:key];
-        default:
-            break;
-     
-    }
-     */
     // TODO: Fix these so they actually display things correctly. Just placeholders.
     if ([CellIdentifier isEqual:@"DishCell"]) {
         cell.textLabel.text = [item objectForKey:@"title"];
         cell.detailTextLabel.text = [item objectForKey:@"data"];
-    } else if ([CellIdentifier isEqual:@"ReviewCell"]) {
-        cell.textLabel.text = [item objectForKey:key];
     } else if ([CellIdentifier isEqual:@"TagCell"]) {
         cell.textLabel.text = [item objectForKey:@"tag"];
         cell.detailTextLabel.text = [item objectForKey:@"count"];
@@ -194,10 +175,8 @@
         CGSize size = [textView sizeThatFits:CGSizeMake(textView.frame.size.width, FLT_MAX)];
         
         if (size.height > 100.0f) {
-            NSLog(@"Height is greater than 100. Height: %f", size.height);
             height = size.height;
         } else {
-            NSLog(@"Height is less than 100. Height: %f", size.height);
             height = 100.0f;
         }
     }
@@ -207,6 +186,37 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     return [self.sections objectAtIndex:section];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *searchString = cell.textLabel.text;
+    // Put it into a URL request
+    NSString *urlString = [NSString stringWithFormat:@"http://14a65481.ngrok.com/search/%@", searchString];
+    NSString *url = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    // Create session task.
+    [[session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        // set response data
+        
+        //CMRTableViewController *newDishVC = [[CMRTableViewController alloc]init];
+        
+        UIStoryboard *storyboard = self.storyboard;
+        
+        CMRTableViewController *newDishVC = [storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];
+        
+        newDishVC.dishJSONData = data;
+        
+        UINavigationController *navController = self.navigationController;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+        
+            [navController pushViewController:newDishVC animated:YES];
+            
+        });
+    }] resume];
 }
  
 /*
