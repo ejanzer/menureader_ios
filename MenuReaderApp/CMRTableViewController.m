@@ -189,34 +189,37 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    NSString *searchString = cell.textLabel.text;
-    // Put it into a URL request
-    NSString *urlString = [NSString stringWithFormat:@"http://14a65481.ngrok.com/search/%@", searchString];
-    NSString *url = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    NSURLSession *session = [NSURLSession sharedSession];
-    
-    // Create session task.
-    [[session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        // set response data
+    if ([[self.sections objectAtIndex:indexPath.section] isEqualToString:@"Similar Dishes"]) {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        NSString *searchString = cell.textLabel.text;
+        // Put it into a URL request
+        NSString *urlString = [NSString stringWithFormat:@"http://14a65481.ngrok.com/search/%@", searchString];
+        NSString *url = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
-        //CMRTableViewController *newDishVC = [[CMRTableViewController alloc]init];
+        NSURLSession *session = [NSURLSession sharedSession];
         
-        UIStoryboard *storyboard = self.storyboard;
-        
-        CMRTableViewController *newDishVC = [storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];
-        
-        newDishVC.dishJSONData = data;
-        
-        UINavigationController *navController = self.navigationController;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-        
-            [navController pushViewController:newDishVC animated:YES];
+        // Create session task.
+        [[session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            // set response data
             
-        });
-    }] resume];
+            //CMRTableViewController *newDishVC = [[CMRTableViewController alloc]init];
+            
+            UIStoryboard *storyboard = self.storyboard;
+            
+            CMRTableViewController *newDishVC = [storyboard instantiateViewControllerWithIdentifier:@"tableViewController"];
+            
+            newDishVC.dishJSONData = data;
+            
+            UINavigationController *navController = self.navigationController;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [navController pushViewController:newDishVC animated:YES];
+                
+            });
+        }] resume];
+    }
 }
  
 /*
