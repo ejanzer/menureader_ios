@@ -35,13 +35,15 @@
     if (self) {
         if (self.dishJSONData) {
             [self parseJSON];
-            if ([[self.sections objectAtIndex:0] isEqualToString:@"Dish"]) {
+            if (!self.sections) {
+                self.navItem.title = @"Search";
+            } else if ([[self.sections objectAtIndex:0] isEqualToString:@"Dish"]) {
                 self.navItem.title = @"Dish";
             } else {
                 self.navItem.title = @"Search";
             }
         } else {
-            // Do something
+            self.navItem.title = @"Search";
         }
         
     }
@@ -54,7 +56,25 @@
     
     if (!jsonObject) {
         NSLog(@"jsonObject does not exist. Error is %@", error);
-        
+        UILabel *errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2)];
+        errorLabel.textColor = [UIColor lightGrayColor];
+        errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        errorLabel.numberOfLines = 0;
+        errorLabel.font = [UIFont systemFontOfSize:30.0f];
+        errorLabel.textAlignment = NSTextAlignmentCenter;
+        errorLabel.text = @"No data received from server.";
+        [self.tableView addSubview:errorLabel];
+    } else if ([jsonObject objectForKey:@"error"]) {
+
+        NSLog(@"Error received from server.");
+        UILabel *errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2)];
+        errorLabel.textColor = [UIColor lightGrayColor];
+        errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        errorLabel.numberOfLines = 0;
+        errorLabel.font = [UIFont systemFontOfSize:30.0f];
+        errorLabel.textAlignment = NSTextAlignmentCenter;
+        errorLabel.text = [jsonObject objectForKey:@"error"];
+        [self.tableView addSubview:errorLabel];
     } else {
         self.data = [[NSMutableArray alloc] init];
         self.cellIds = [[NSMutableArray alloc] init];
@@ -62,7 +82,7 @@
         
         if ([jsonObject objectForKey:@"dish"] && [jsonObject objectForKey:@"dish"] != (id)[NSNull null]) {
             [self.data addObject: [jsonObject objectForKey:@"dish"]];
-            [self.sections addObject: @"Dish"];
+            [self.sections addObject:@"Dish"];
             [self.cellIds addObject:@"DishCell"];
         }
         if ([jsonObject objectForKey:@"reviews"] && [jsonObject objectForKey:@"reviews"] != (id)[NSNull null]) {
@@ -156,7 +176,7 @@
         cell.detailTextLabel.text = [item objectForKey:@"data"];
     }
 
-    if ([CellIdentifier isEqual:@"SimilarCell"]) {
+    if ([CellIdentifier isEqual:@"SimilarCell"] || [CellIdentifier isEqual:@"TagCell"]) {
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     } else {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -191,11 +211,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([[self.sections objectAtIndex:indexPath.section] isEqualToString:@"Similar Dishes"]) {
+    if ([[self.sections objectAtIndex:indexPath.section] isEqualToString:@"Similar Dishes"] || [[self.sections objectAtIndex:indexPath.section] isEqualToString:@"Tags"]) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         NSString *searchString = cell.textLabel.text;
+        
+        NSString *urlString = nil;
         // Put it into a URL request
-        NSString *urlString = [NSString stringWithFormat:@"http://14a65481.ngrok.com/search/%@", searchString];
+        if ([[self.sections objectAtIndex:indexPath.section] isEqualToString:@"Similar Dishes"]) {
+            urlString = [NSString stringWithFormat:@"http://14a65481.ngrok.com/search/%@", searchString];
+        } else if ([[self.sections objectAtIndex:indexPath.section] isEqualToString:@"Tags"]) {
+            urlString = [NSString stringWithFormat:@"http://14a65481.ngrok.com/tag/%@", searchString];
+        } else {
+            NSLog(@"How did this happen?");
+        }
+
         NSString *url = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
         NSURLSession *session = [NSURLSession sharedSession];
