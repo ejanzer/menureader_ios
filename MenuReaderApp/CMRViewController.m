@@ -224,21 +224,25 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    if (!self.imageView) {
-        // Set up scrollview and imageview.
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-        self.imageView = imageView;
-    } else {
-        self.imageView.image = image;
-    }
-
+    // Create image view from image and add to scrollview.
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    self.imageView = imageView;
     [self.scrollView addSubview:self.imageView];
+    
+    // Set min and max scale for scrollview
+    NSLog(@"Image view frame size: %f x %f", self.imageView.frame.size.height, self.imageView.frame.size.width);
     self.scrollView.contentSize = self.imageView.frame.size;
     self.scrollView.maximumZoomScale = 3.0f;
+    NSLog(@"Maxmimum zoom scale: %f", self.scrollView.maximumZoomScale);
     CGRect scrollViewFrame = self.scrollView.frame;
+    NSLog(@"Scroll view frame size: %f x %f", self.scrollView.frame.size.height, self.scrollView.frame.size.width);
     CGFloat scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width;
+    NSLog(@"Scroll view width: %f, Content size width: %f, scale width: %f", self.scrollView.frame.size.width, self.scrollView.contentSize.width, scaleWidth);
     CGFloat scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height;
+    NSLog(@"Scroll view height: %f, Content size height: %f, scale height: %f", self.scrollView.frame.size.height, self.scrollView.contentSize.height, scaleHeight);
+
     CGFloat minScale = MIN(scaleWidth, scaleHeight);
+    NSLog(@"Minimum scale: %f", minScale);
     self.scrollView.minimumZoomScale = minScale;
     self.scrollView.zoomScale = minScale;
     
@@ -248,8 +252,10 @@
     if (!self.rectView) {
         CMRRectView *rectView = [[CMRRectView alloc] initWithFrame:self.rect];
         self.rectView = rectView;
-        [self.mainView addSubview:self.rectView];
     }
+
+    [self.mainView addSubview:self.rectView];
+
     
     NSLog(@"Original image orientation: %ld", image.imageOrientation);
     NSLog(@"Original image height: %f width: %f", image.size.height, image.size.width);
