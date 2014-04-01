@@ -28,6 +28,8 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 
+@property (nonatomic) UILabel *helperLabel;
+
 @end
 
 @implementation CMRViewController
@@ -55,9 +57,19 @@
         [self.toolBar setItems:toolbarItems animated:NO];
     }
     
-    // If there's no image in the view, disable the upload button.
+    // If there's no image in the view, disable the upload button and add helper text.
     if (!self.imageView) {
         [self.uploadButton setEnabled:NO];
+        
+        self.helperLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 150, self.scrollView.frame.size.width - 100, 150)];
+        self.helperLabel.text = @"Take a picture of a menu.";
+        self.helperLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.helperLabel.numberOfLines = 0;
+        self.helperLabel.textAlignment = NSTextAlignmentCenter;
+        self.helperLabel.textColor = [UIColor lightGrayColor];
+        self.helperLabel.font = [UIFont systemFontOfSize:25.0f];
+        [self.mainView addSubview:self.helperLabel];
+        
     } else {
         [self.uploadButton setEnabled:YES];
     }
@@ -230,19 +242,13 @@
     [self.scrollView addSubview:self.imageView];
     
     // Set min and max scale for scrollview
-    NSLog(@"Image view frame size: %f x %f", self.imageView.frame.size.height, self.imageView.frame.size.width);
     self.scrollView.contentSize = self.imageView.frame.size;
     self.scrollView.maximumZoomScale = 3.0f;
-    NSLog(@"Maxmimum zoom scale: %f", self.scrollView.maximumZoomScale);
     CGRect scrollViewFrame = self.scrollView.frame;
-    NSLog(@"Scroll view frame size: %f x %f", self.scrollView.frame.size.height, self.scrollView.frame.size.width);
     CGFloat scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width;
-    NSLog(@"Scroll view width: %f, Content size width: %f, scale width: %f", self.scrollView.frame.size.width, self.scrollView.contentSize.width, scaleWidth);
     CGFloat scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height;
-    NSLog(@"Scroll view height: %f, Content size height: %f, scale height: %f", self.scrollView.frame.size.height, self.scrollView.contentSize.height, scaleHeight);
 
     CGFloat minScale = MIN(scaleWidth, scaleHeight);
-    NSLog(@"Minimum scale: %f", minScale);
     self.scrollView.minimumZoomScale = minScale;
     self.scrollView.zoomScale = minScale;
     
@@ -254,12 +260,20 @@
         self.rectView = rectView;
     }
 
-    [self.mainView addSubview:self.rectView];
-
+    [self.helperLabel removeFromSuperview];
+    self.helperLabel = nil;
+    self.helperLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 250, self.scrollView.frame.size.width - 100, 300)];
+    self.helperLabel.text = @"Crop image around dish name.";
+    self.helperLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.helperLabel.numberOfLines = 0;
+    self.helperLabel.textAlignment = NSTextAlignmentCenter;
+    self.helperLabel.textColor = [UIColor whiteColor];
+    self.helperLabel.shadowOffset = CGSizeZero;
+    self.helperLabel.shadowColor = [UIColor blackColor];
+    self.helperLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:25.0f];
+    [self.mainView addSubview:self.helperLabel];
     
-    NSLog(@"Original image orientation: %ld", image.imageOrientation);
-    NSLog(@"Original image height: %f width: %f", image.size.height, image.size.width);
-
+    [self.mainView addSubview:self.rectView];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
