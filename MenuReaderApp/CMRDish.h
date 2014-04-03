@@ -10,11 +10,13 @@
 
 @interface CMRDish : NSObject
 
-@property (copy, readonly) NSString *chinName;
-@property (copy, readonly) NSString *engName;
+@property (copy, readonly) NSString *chineseName;
+@property (copy, readonly) NSString *englishName;
 @property (copy, readonly) NSString *pinyin;
-@property (copy, readonly) NSString *description;
+@property (copy, readonly) NSString *dishDescription;
 
--(id)initWithData:(NSDictionary *)data;
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+-(instancetype)initWithChineseName:(NSString *)chineseName englishName:(NSString *)englishName pinyin:(NSString *)pinyin description:(NSString *)dishDescription;
 
 @end

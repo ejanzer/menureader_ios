@@ -10,12 +10,13 @@
 
 @interface CMRReview : NSObject
 
-@property NSString *text;
-@property NSString *restaurant;
-@property NSString *username;
-@property NSString *date;
+@property (copy, readonly) NSString *text;
+@property (copy, readonly) NSString *restaurant;
+@property (copy, readonly) NSString *username;
+@property (copy, readonly) NSString *date;
 
--(id)initWithData:(NSDictionary *)data;
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
+-(instancetype)initWithUsername:(NSString *)username text:(NSString *)text restaurant:(NSString *)restaurant date:(NSString *)date;
 
 @end

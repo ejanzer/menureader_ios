@@ -10,15 +10,16 @@
 
 @interface CMRImage()
 
+@property (copy, readwrite) UIImage *image;
+
 @end
 
 @implementation CMRImage
 
-- (id)initWithImage:(UIImage *)image {
+- (instancetype)initWithImage:(UIImage *)image {
     if (self = [self init]) {
         self.image = image;
     }
-    
     return self;
 }
 @end

@@ -8,12 +8,21 @@
 
 #import "CMRTag.h"
 
+@interface CMRTag()
+
+@property (copy, readwrite) NSString *name;
+@property (copy, readwrite) NSString *count;
+@property (copy, readwrite) NSNumber *idNumber;
+
+@end
 @implementation CMRTag
 
--(id)initWithData:(NSDictionary *)data {
-    self.name = [data objectForKey:@"name"];
-    self.count = [data objectForKey:@"count"];
-    self.idNumber = [data objectForKey:@"id"];
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    if (self = [self init]) {
+        self.name = [dictionary objectForKey:@"name"];
+        self.count = [dictionary objectForKey:@"count"];
+        self.idNumber = [dictionary objectForKey:@"id"];
+    }
     return self;
 }
 

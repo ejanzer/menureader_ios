@@ -9,19 +9,31 @@
 #import "CMRDish.h"
 
 @interface CMRDish()
-@property (copy, readwrite) NSString *chinName;
-@property (copy, readwrite) NSString *engName;
+@property (copy, readwrite) NSString *chineseName;
+@property (copy, readwrite) NSString *englishName;
 @property (copy, readwrite) NSString *pinyin;
-@property (copy, readwrite) NSString *description;
+@property (copy, readwrite) NSString *dishDescription;
 @end
 
 @implementation CMRDish
 
--(id)initWithData:(NSDictionary *)data {
-    self.engName = [data objectForKey:@"eng_name"];
-    self.chinName = [data objectForKey:@"chin_name"];
-    self.pinyin = [data objectForKey:@"pinyin"];
-    self.description = [data objectForKey:@"desc"];
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    if (self = [self init]) {
+        self.englishName = dictionary[@"eng_name"];
+        self.chineseName = dictionary[@"chin_name"];
+        self.pinyin = dictionary[@"pinyin"];
+        self.dishDescription = dictionary[@"desc"];
+    }
+    return self;
+}
+
+-(instancetype)initWithChineseName:(NSString *)chineseName englishName:(NSString *)englishName pinyin:(NSString *)pinyin description:(NSString *)dishDescription {
+    if (self = [self init]) {
+        self.chineseName = chineseName;
+        self.englishName = englishName;
+        self.pinyin = pinyin;
+        self.dishDescription = dishDescription;
+    }
     return self;
 }
 

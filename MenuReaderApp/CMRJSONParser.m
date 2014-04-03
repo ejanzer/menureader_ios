@@ -35,7 +35,7 @@
         NSMutableArray *dishCells = [[NSMutableArray alloc] init];
         
         for (NSDictionary *dishDict in dishData) {
-            CMRDish *dishCell = [[CMRDish alloc] initWithData:dishDict];
+            CMRDish *dishCell = [[CMRDish alloc] initWithDictionary:dishDict];
             [dishCells addObject:dishCell];
         }
         
@@ -69,7 +69,7 @@
         
         for (int i = 0; i < [reviewData count]; i++) {
             NSDictionary *reviewDict = [reviewData objectAtIndex:i];
-            CMRReview *reviewCell = [[CMRReview alloc] initWithData:reviewDict];
+            CMRReview *reviewCell = [[CMRReview alloc] initWithDictionary:reviewDict];
             [reviewCells addObject:reviewCell];
         }
         
@@ -85,7 +85,7 @@
         
         for (int i = 0; i < [tagData count]; i++) {
             NSDictionary *tagDict = [tagData objectAtIndex:i];
-            CMRTag *tagCell = [[CMRTag alloc] initWithData:tagDict];
+            CMRTag *tagCell = [[CMRTag alloc] initWithDictionary:tagDict];
             [tagCells addObject:tagCell];
         }
         
@@ -101,7 +101,7 @@
         
         for (int i = 0; i < [translationData count]; i++) {
             NSDictionary *translationDict = [translationData objectAtIndex:i];
-            CMRTranslation *translationCell = [[CMRTranslation alloc] initWithData:translationDict];
+            CMRTranslation *translationCell = [[CMRTranslation alloc] initWithDictionary:translationDict];
             [translationCells addObject:translationCell];
         }
         
@@ -117,7 +117,7 @@
         
         for (int i = 0; i < [similarData count]; i++) {
             NSDictionary *similarDict = [similarData objectAtIndex:i];
-            CMRSimilar *similarCell = [[CMRSimilar alloc] initWithData:similarDict];
+            CMRSimilar *similarCell = [[CMRSimilar alloc] initWithDictionary:similarDict];
             [similarCells addObject:similarCell];
         }
         

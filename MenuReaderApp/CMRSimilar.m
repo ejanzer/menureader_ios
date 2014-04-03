@@ -8,13 +8,22 @@
 
 #import "CMRSimilar.h"
 
+@interface CMRSimilar()
+
+@property (copy, readwrite) NSString *chinese;
+@property (copy, readwrite) NSString *english;
+@property (copy, readwrite) NSNumber *idNumber;
+
+@end
+
 @implementation CMRSimilar
 
--(id)initWithData:(NSDictionary *)data {
-    
-    self.chinese = [data objectForKey:@"chinese"];
-    self.english = [data objectForKey:@"english"];
-    self.idNumber = [data objectForKey:@"id"];
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    if (self = [self init]) {
+        self.chinese = dictionary[@"chinese"];
+        self.english = dictionary[@"english"];
+        self.idNumber = dictionary[@"id"];
+    }
     return self;
 }
 

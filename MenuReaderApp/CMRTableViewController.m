@@ -158,13 +158,13 @@
         case CMRCellTypeDish: {
             CMRDishTableViewCell *dishCell = (CMRDishTableViewCell *)cell;
             CMRDish *dish = (CMRDish *)[section cellForRow:indexPath.row];
-            dishCell.dishChineseLabel.text = dish.chinName;
-            dishCell.dishEnglishLabel.text = dish.engName;
+            dishCell.dishChineseLabel.text = dish.chineseName;
+            dishCell.dishEnglishLabel.text = dish.englishName;
             dishCell.dishPinyinLabel.text = dish.pinyin;
             
-            if (dish.description) {
+            if (dish.dishDescription) {
                 UITextView *descriptionView = [[UITextView alloc] initWithFrame:CGRectMake(0, 75, cell.frame.size.width, cell.frame.size.height/2)];
-                descriptionView.text = dish.description;
+                descriptionView.text = dish.dishDescription;
                 descriptionView.textAlignment = NSTextAlignmentCenter;
                 descriptionView.font = [UIFont systemFontOfSize:12.0f];
                 
@@ -238,7 +238,7 @@
        }
         case CMRCellTypeDish: {
             CMRDish *dish = (CMRDish *)[sectionObj cellForRow:indexPath.row];
-            if (dish.description) {
+            if (dish.dishDescription) {
                 /*
                 NSString *text = dish.description;
                 height += [self getTextHeight:text min:100.0];

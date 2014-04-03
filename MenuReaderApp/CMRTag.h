@@ -10,11 +10,11 @@
 
 @interface CMRTag : NSObject
 
-@property NSString *name;
-@property NSString *count;
-@property NSNumber *idNumber;
+@property (copy, readonly) NSString *name;
+@property (copy, readonly) NSString *count;
+@property (copy, readonly) NSNumber *idNumber;
 
--(id)initWithData:(NSDictionary *)data;
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 
 

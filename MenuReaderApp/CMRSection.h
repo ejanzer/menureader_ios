@@ -21,9 +21,9 @@ typedef NS_ENUM(NSInteger, CMRCellType) {
 
 @property CMRCellType type;
 
-@property NSString *cellIdentifier;
-@property NSString *sectionTitle;
-@property NSArray *cells;
+@property (copy, readonly) NSString *cellIdentifier;
+@property (copy, readonly) NSString *sectionTitle;
+@property (copy, readonly) NSArray *cells;
 
 -(instancetype)initWithCells:(NSArray *)data section:(NSString *)sectionTitle cellId:(NSString *)cellIdentifier type:(CMRCellType)cellType;
 

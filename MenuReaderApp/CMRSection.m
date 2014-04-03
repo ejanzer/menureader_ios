@@ -9,6 +9,12 @@
 #import "CMRSection.h"
 #import "CMRDish.h"
 
+@interface CMRSection()
+@property (copy, readwrite) NSString *cellIdentifier;
+@property (copy, readwrite) NSString *sectionTitle;
+@property (copy, readwrite) NSArray *cells;
+@end
+
 @implementation CMRSection
 
 -(instancetype)initWithCells:(NSArray *)cells section:(NSString *)sectionTitle cellId:(NSString *)cellIdentifier type:(CMRCellType)type{
@@ -20,10 +26,12 @@
     return self;
 }
 
+//TODO: Delete, just use cells
 -(NSInteger)getNumberOfRows {
     return [self.cells count];
 }
 
+//TODO: Delete, just use cells
 -(id)cellForRow:(NSUInteger)row {
     return [self.cells objectAtIndex:row];
 }

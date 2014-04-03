@@ -10,10 +10,10 @@
 
 @interface CMRSimilar : NSObject
 
-@property NSString *chinese;
-@property NSString *english;
-@property NSNumber *idNumber;
+@property (copy, readonly) NSString *chinese;
+@property (copy, readonly) NSString *english;
+@property (copy, readonly) NSNumber *idNumber;
 
--(id)initWithData:(NSDictionary *)data;
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

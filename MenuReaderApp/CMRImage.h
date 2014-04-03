@@ -10,8 +10,8 @@
 
 @interface CMRImage : NSObject
 
-@property UIImage *image;
+@property (copy, readonly) UIImage *image;
 
--(id)initWithImage:(UIImage *)image;
+-(instancetype)initWithImage:(UIImage *)image;
 
 @end

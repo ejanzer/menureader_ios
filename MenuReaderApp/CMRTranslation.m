@@ -8,11 +8,20 @@
 
 #import "CMRTranslation.h"
 
+@interface CMRTranslation()
+
+@property (copy, readwrite) NSString *chinese;
+@property (copy, readwrite) NSString *english;
+
+@end
+
 @implementation CMRTranslation
 
--(id)initWithData:(NSDictionary *)data {
-    self.chinese = [data objectForKey:@"char"];
-    self.english = [data objectForKey:@"english"];
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    if (self = [self init]) {
+        self.chinese = dictionary[@"char"];
+        self.english = dictionary[@"english"];
+    }
     return self;
 }
 

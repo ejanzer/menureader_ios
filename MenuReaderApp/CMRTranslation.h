@@ -10,9 +10,9 @@
 
 @interface CMRTranslation : NSObject
 
-@property NSString *chinese;
-@property NSString *english;
+@property (copy, readonly) NSString *chinese;
+@property (copy, readonly) NSString *english;
 
--(id)initWithData:(NSDictionary *)data;
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end
