@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Emily Janzer. All rights reserved.
 //
 
+#import "Server.h"
 #import "CMRTableViewController.h"
 #import "CMRReviewTableViewCell.h"
 #import "CMRAppDelegate.h"
@@ -173,11 +174,10 @@
             dishCell.dishPinyinLabel.text = dish.pinyin;
             
             if (dish.dishDescription) {
-                UITextView *descriptionView = [[UITextView alloc] initWithFrame:CGRectMake(0, 75, cell.frame.size.width, cell.frame.size.height/2)];
+                UITextView *descriptionView = [[UITextView alloc] initWithFrame:CGRectMake(0, 75, cell.frame.size.width, 30)];
                 descriptionView.text = dish.dishDescription;
                 descriptionView.textAlignment = NSTextAlignmentCenter;
-                descriptionView.font = [UIFont systemFontOfSize:12.0f];
-                
+                descriptionView.font = [UIFont systemFontOfSize:14.0f];
                 dishCell.dishDescriptionTextView = descriptionView;
                 [dishCell.contentView addSubview:descriptionView];
             }
@@ -195,8 +195,12 @@
             reviewCell.reviewUsernameLabel.text = review.username;
             reviewCell.reviewTextView.text = review.text;
             reviewCell.reviewDateLabel.text = review.date;
-            reviewCell.reviewRestaurantLabel.text = review.restaurant;
+            reviewCell.reviewRestaurantLabel.text = [NSString stringWithFormat:@"@%@", review.restaurant];
             reviewCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            reviewCell.reviewTextView.editable = NO;
+            reviewCell.reviewTextView.scrollEnabled = NO;
+            reviewCell.reviewTextView.textContainer.maximumNumberOfLines = 0;
+            reviewCell.reviewTextView.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
 
             cell = reviewCell;
             break;
@@ -243,7 +247,7 @@
             NSString *text = review.text;
             height = [self getTextHeight:text min:100.0];
              */
-            height = 132.0f;
+            height = 120.0f;
             break;
        }
         case CMRCellTypeDish: {
@@ -253,7 +257,7 @@
                 NSString *text = dish.description;
                 height += [self getTextHeight:text min:100.0];
                  */
-                height = 200.0f;
+                height = 130.0f;
                 
             } else {
                 height = 100.0f;
@@ -264,11 +268,14 @@
         case CMRCellTypeImage: {
             height = 100.0f;
             
-            // Do I want to size cell based on image, or image based on cell?
             /*
-            CMRImage *image = (CMRImage *)[sectionObj getCellForRow:indexPath.row];
+            CMRImage *image = (CMRImage *)[sectionObj.cells objectAtIndex:indexPath.row];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:image.image];
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            //imageView.frame = CGRectMake(0, 0, self.tableView.frame.size.width, cell.frame.size.height);
             height = image.image.size.height;
              */
+            
             break;
             
         }
@@ -305,13 +312,13 @@
     switch (section.type) {
         case CMRCellTypeSimilar: {
             CMRSimilar *similarDish = (CMRSimilar *)[section cellForRow:indexPath.row];
-            NSString *urlString = [NSString stringWithFormat:@"http://7558c64f.ngrok.com/dish/%@", similarDish.idNumber];
+            NSString *urlString = [NSString stringWithFormat:@"%@/dish/%@", kBaseURL, similarDish.idNumber];
             [self loadNextDishViewController:urlString];
             break;
         }
         case CMRCellTypeTag: {
             CMRTag *tag = (CMRTag *)[section cellForRow:indexPath.row];
-            NSString *urlString = [NSString stringWithFormat:@"http://7558c64f.ngrok.com/tag/%@", tag.idNumber];
+            NSString *urlString = [NSString stringWithFormat:@"%@/tag/%@", kBaseURL, tag.idNumber];
             [self loadNextDishViewController:urlString];
         }
         default:

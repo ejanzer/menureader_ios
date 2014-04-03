@@ -19,6 +19,8 @@
         // Initialization code
         self.reviewTextView.editable = NO;
         self.reviewTextView.scrollEnabled = NO;
+        self.reviewTextView.textContainer.maximumNumberOfLines = 0;
+        self.reviewTextView.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return self;
 }
