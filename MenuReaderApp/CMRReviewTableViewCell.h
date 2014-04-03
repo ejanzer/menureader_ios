@@ -13,5 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *reviewUsernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *reviewDateLabel;
 @property (weak, nonatomic) IBOutlet UITextView *reviewTextView;
+@property (weak, nonatomic) IBOutlet UILabel *reviewRestaurantLabel;
+
 
 @end

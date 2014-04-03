@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 
 @property (nonatomic) UILabel *helperLabel;
+@property (nonatomic) UIImage *croppedImage;
 
 @end
 
@@ -143,6 +144,7 @@
 
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
     UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
+    self.croppedImage = croppedImage;
     CGImageRelease(imageRef);
     
     
@@ -151,7 +153,7 @@
     //NSData *imageData = UIImagePNGRepresentation(image);
     
     // Put it into a URL request
-    NSString *url = @"http://14a65481.ngrok.com/upload";
+    NSString *url = @"http://7558c64f.ngrok.com/upload";
     
     // Create request object.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -194,6 +196,7 @@
     if ([segue.identifier isEqualToString:@"dishSegue"]) {
         CMRTableViewController *dishVC = [segue destinationViewController];
         dishVC.dishJSONData = self.dishData;
+        dishVC.searchImage = self.croppedImage;
     }
 }
 
