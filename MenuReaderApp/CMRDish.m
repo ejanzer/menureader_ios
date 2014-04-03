@@ -9,7 +9,10 @@
 #import "CMRDish.h"
 
 @interface CMRDish()
-
+@property (copy, readwrite) NSString *chinName;
+@property (copy, readwrite) NSString *engName;
+@property (copy, readwrite) NSString *pinyin;
+@property (copy, readwrite) NSString *description;
 @end
 
 @implementation CMRDish

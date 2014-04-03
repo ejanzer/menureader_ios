@@ -11,7 +11,7 @@
 
 @implementation CMRSection
 
--(id)initWithCells:(NSArray *)cells section:(NSString *)sectionTitle cellId:(NSString *)cellIdentifier type:(CMRCellType)type{
+-(instancetype)initWithCells:(NSArray *)cells section:(NSString *)sectionTitle cellId:(NSString *)cellIdentifier type:(CMRCellType)type{
     self.cells = cells;
     self.sectionTitle = sectionTitle;
     self.cellIdentifier = cellIdentifier;
@@ -24,7 +24,7 @@
     return [self.cells count];
 }
 
--(id)getCellForRow:(NSUInteger)row {
+-(id)cellForRow:(NSUInteger)row {
     return [self.cells objectAtIndex:row];
 }
 

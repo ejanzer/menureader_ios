@@ -15,7 +15,7 @@
 @implementation CMRReview
 
 -(id)initWithData:(NSDictionary *)data {
-    self.text = [data objectForKey:@"text"];
+    self.text = data[@"text"];
     self.username = [data objectForKey:@"username"];
     self.date = [data objectForKey:@"date"];
     self.restaurant = [data objectForKey:@"restaurant"];

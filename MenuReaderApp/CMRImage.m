@@ -14,8 +14,11 @@
 
 @implementation CMRImage
 
--(id) initWithImage:(UIImage *)image {
-    self.image = image;
+- (id)initWithImage:(UIImage *)image {
+    if (self = [self init]) {
+        self.image = image;
+    }
+    
     return self;
 }
 @end

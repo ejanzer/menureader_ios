@@ -25,10 +25,10 @@ typedef NS_ENUM(NSInteger, CMRCellType) {
 @property NSString *sectionTitle;
 @property NSArray *cells;
 
--(id)initWithCells:(NSArray *)data section:(NSString *)sectionTitle cellId:(NSString *)cellIdentifier type:(CMRCellType)cellType;
+-(instancetype)initWithCells:(NSArray *)data section:(NSString *)sectionTitle cellId:(NSString *)cellIdentifier type:(CMRCellType)cellType;
 
 -(NSInteger)getNumberOfRows;
 
--(NSObject *)getCellForRow:(NSUInteger)row;
+-(NSObject *)cellForRow:(NSUInteger)row;
 
 @end

@@ -17,25 +17,24 @@
 
 @implementation CMRJSONParser
 
-
--(NSArray *)parseJSON:(id)jsonObject withImage: (UIImage *)image {
-    NSMutableArray *sectionObjects = [[NSMutableArray alloc]init];
+- (NSArray *)parseJSON:(id)jsonObject withImage:(UIImage *)image {
+    NSMutableArray *sectionObjects = [NSMutableArray array];
     
         
     if (image) {
         CMRImage *imageCell = [[CMRImage alloc] initWithImage:image];
-        NSArray *imageCells = [[NSArray alloc] initWithObjects:imageCell, nil];
+        NSArray *imageCells = [NSArray arrayWithObject:imageCell];
         
         CMRSection *imageSection = [[CMRSection alloc] initWithCells:imageCells section:@"Search" cellId:@"ImageCell" type:CMRCellTypeImage];
         [sectionObjects addObject:imageSection];
     }
     
-    NSArray *dishData = [jsonObject objectForKey:@"dish"];
-    if (dishData && dishData != (id)[NSNull null]) {
+    id object = [jsonObject objectForKey:@"dish"];
+    if (object && object != [NSNull null]) {
+        NSArray *dishData = object;
         NSMutableArray *dishCells = [[NSMutableArray alloc] init];
         
-        for (int i = 0; i < [dishData count]; i++) {
-            NSDictionary *dishDict = [dishData objectAtIndex:i];
+        for (NSDictionary *dishDict in dishData) {
             CMRDish *dishCell = [[CMRDish alloc] initWithData:dishDict];
             [dishCells addObject:dishCell];
         }
@@ -48,14 +47,14 @@
     NSArray *imageData = [jsonObject objectForKey:@"images"];
     if (imageData && imageData != (id)[NSNull null]) {
         
-        // Will it be a problem that this is a mutable array?
-        NSMutableArray *imageCells = [[NSMutableArray alloc] init];
+        NSMutableArray *imageCells = [NSMutableArray arrayWithCapacity:[imageData count]];
         
         for (int i = 0; i < [imageData count]; i++) {
+
             NSDictionary *imageDict = [imageData objectAtIndex:i];
             
-            //TODO: I think this is base64 encoded...
-            UIImage *image = [[UIImage alloc] initWithData:[imageDict objectForKey:@"data"]];
+            NSData *imageData = [[NSData alloc]initWithBase64EncodedString:[imageDict objectForKey:@"data"] options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            UIImage *image = [UIImage imageWithData:imageData];
             CMRImage *imageCell = [[CMRImage alloc] initWithImage:image];
             [imageCells addObject:imageCell];
         }

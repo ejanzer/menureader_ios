@@ -126,6 +126,7 @@
     
     [self.uploadButton setEnabled:NO];
  
+    // Commenting out for offline development.
     
     CGRect cropRect;
     float scale = 1.0 / self.scrollView.zoomScale;
@@ -184,12 +185,14 @@
     
     [uploadTask resume];
     
-    // Adding for offline development. Delete or comment out later.
     /*
+    // Adding for offline development. Delete or comment out later.
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self performSegueWithIdentifier:@"dishSegue" sender:self];
     });
      */
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -201,21 +204,13 @@
 }
 
 - (UIImage *)fixImageOrientation:(UIImage *)image {
-    NSLog(@"Original image orientation: %ld", image.imageOrientation);
-    NSLog(@"Original image height: %f width: %f", image.size.height, image.size.width);
-    
     if (image.imageOrientation == UIImageOrientationUp) return image;
     
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     [image drawInRect:(CGRect){0, 0, image.size}];
     UIImage *normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
-    NSLog(@"New image orientation: %ld", normalizedImage.imageOrientation);
-    NSLog(@"New image height: %f width: %f", normalizedImage.size.height, normalizedImage.size.width);
-    if (normalizedImage.imageOrientation == UIImageOrientationUp) {
-        NSLog(@"New image is right side up.");
-    }
+
     return normalizedImage;
 }
 

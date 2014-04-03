@@ -170,13 +170,8 @@
 				7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */,
 				7E15720718E47F6F007DE1F6 /* CMRTableViewController.h */,
 				7E15720818E47F70007DE1F6 /* CMRTableViewController.m */,
-				7EF6EAE618ECB53D0003C679 /* CMRDishTableViewCell.h */,
-				7EF6EAE718ECB53D0003C679 /* CMRDishTableViewCell.m */,
-				7EF6EACD18EC6B1C0003C679 /* CMRJSONParser.h */,
-				7EF6EACE18EC6B1C0003C679 /* CMRJSONParser.m */,
 				7EF6EAE518EC97320003C679 /* Model */,
-				7E15720A18E74220007DE1F6 /* CMRReviewTableViewCell.h */,
-				7E15720B18E74220007DE1F6 /* CMRReviewTableViewCell.m */,
+				7EF6EAE918ECF91B0003C679 /* TableViewCells */,
 				7EA99AFB18DCB28C00370E85 /* CMRDishViewController.xib */,
 				7EA99ACD18D8CADF00370E85 /* Images.xcassets */,
 				7EA99ACA18D8CADE00370E85 /* MenuReaderApp.xcdatamodeld */,
@@ -217,6 +212,8 @@
 		7EF6EAE518EC97320003C679 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7EF6EACD18EC6B1C0003C679 /* CMRJSONParser.h */,
+				7EF6EACE18EC6B1C0003C679 /* CMRJSONParser.m */,
 				7EF6EAE218EC92FF0003C679 /* CMRSimilar.h */,
 				7EF6EAE318EC92FF0003C679 /* CMRSimilar.m */,
 				7EF6EADF18EC920B0003C679 /* CMRTranslation.h */,
@@ -233,6 +230,17 @@
 				7EF6EAD118EC7EAD0003C679 /* CMRSection.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		7EF6EAE918ECF91B0003C679 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				7EF6EAE618ECB53D0003C679 /* CMRDishTableViewCell.h */,
+				7EF6EAE718ECB53D0003C679 /* CMRDishTableViewCell.m */,
+				7E15720B18E74220007DE1F6 /* CMRReviewTableViewCell.m */,
+				7E15720A18E74220007DE1F6 /* CMRReviewTableViewCell.h */,
+			);
+			name = TableViewCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

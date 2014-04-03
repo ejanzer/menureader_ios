@@ -41,6 +41,7 @@
 {
     [super viewDidLoad];
     if (self) {
+
         if (self.dishJSONData) {
             NSError *error = nil;
 
@@ -107,11 +108,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    NSLog(@"Sections: %lu", [self.sections count]);
-    for (int i = 0; i < [self.sections count]; i++) {
-        CMRSection *section = [self.sections objectAtIndex:i];
-        NSLog(@"Section name: %@, Rows: %lu", section.sectionTitle, [section getNumberOfRows]);
-    }
     return [self.sections count];
 }
 
@@ -124,39 +120,50 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CMRSection *section = [self.sections objectAtIndex:indexPath.section];
-    NSLog(@"Section: %@, Type: %lu", section.sectionTitle, section.type);
 
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:section.cellIdentifier forIndexPath:indexPath];
+    
+    if (!cell) {
+        switch (section.type) {
+            case CMRCellTypeDish: {
+                cell = [[CMRDishTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section.cellIdentifier];
+            }
+            case CMRCellTypeReview: {
+                cell = [[CMRReviewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section.cellIdentifier];
+            }
+            case CMRCellTypeImage:
+            case CMRCellTypeSimilar:
+            case CMRCellTypeTag:
+            case CMRCellTypeTranslation:
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section.cellIdentifier];
+                break;
+            default:
+                break;
+        }
+        
+       
+    }
+    
     switch (section.type) {
         case CMRCellTypeImage: {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:section.cellIdentifier forIndexPath:indexPath];
-            
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section.cellIdentifier];
-            }
-            NSLog(@"Creating an image cell. Section name: %@, cell identifier: %@", section.sectionTitle, section.cellIdentifier);
-            CMRImage *image = (CMRImage *)[section getCellForRow:indexPath.row];
+            CMRImage *image = (CMRImage *)[section cellForRow:indexPath.row];
             UIImageView *imageView = [[UIImageView alloc] initWithImage:image.image];
             imageView.contentMode = UIViewContentModeScaleAspectFit;
             imageView.frame = CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height);
             [cell.contentView addSubview:imageView];
+            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return cell;
+            break;
         }
         case CMRCellTypeDish: {
-            NSLog(@"Creating a dish cell. Section name: %@, cell identifier: %@", section.sectionTitle, section.cellIdentifier);
-            CMRDishTableViewCell *dishCell = [tableView dequeueReusableCellWithIdentifier:section.cellIdentifier forIndexPath:indexPath];
-            
-            if (dishCell == nil) {
-                dishCell = [[CMRDishTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section.cellIdentifier];
-            }
-            
-            CMRDish *dish = (CMRDish *)[section getCellForRow:indexPath.row];
+            CMRDishTableViewCell *dishCell = (CMRDishTableViewCell *)cell;
+            CMRDish *dish = (CMRDish *)[section cellForRow:indexPath.row];
             dishCell.dishChineseLabel.text = dish.chinName;
             dishCell.dishEnglishLabel.text = dish.engName;
             dishCell.dishPinyinLabel.text = dish.pinyin;
             
             if (dish.description) {
-                UITextView *descriptionView = [[UITextView alloc] initWithFrame:CGRectMake(0, 75, dishCell.frame.size.width, dishCell.frame.size.height/2)];
+                UITextView *descriptionView = [[UITextView alloc] initWithFrame:CGRectMake(0, 75, cell.frame.size.width, cell.frame.size.height/2)];
                 descriptionView.text = dish.description;
                 descriptionView.textAlignment = NSTextAlignmentCenter;
                 descriptionView.font = [UIFont systemFontOfSize:12.0f];
@@ -166,95 +173,82 @@
             }
             dishCell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-            return dishCell;
+            cell = dishCell;
+            break;
         }
         case CMRCellTypeReview: {
-            NSLog(@"Creating a review cell. Section name: %@, cell identifier: %@", section.sectionTitle, section.cellIdentifier);
-            CMRReviewTableViewCell *reviewCell = [tableView dequeueReusableCellWithIdentifier:section.cellIdentifier forIndexPath:indexPath];
-            
+            CMRReviewTableViewCell *reviewCell = (CMRReviewTableViewCell *)cell;
             if (reviewCell == nil) {
                 reviewCell = [[CMRReviewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section.cellIdentifier];
             }
-            CMRReview *review = (CMRReview *)[section getCellForRow:indexPath.row];
+            CMRReview *review = (CMRReview *)[section cellForRow:indexPath.row];
             reviewCell.reviewUsernameLabel.text = review.username;
             reviewCell.reviewTextView.text = review.text;
             reviewCell.reviewDateLabel.text = review.date;
             reviewCell.reviewRestaurantLabel.text = review.restaurant;
             reviewCell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-            return reviewCell;
+            cell = reviewCell;
+            break;
         }
         case CMRCellTypeTag: {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:section.cellIdentifier forIndexPath:indexPath];
-            
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section.cellIdentifier];
-            }
-            NSLog(@"Creating a tag cell. Section name: %@, cell identifier: %@", section.sectionTitle, section.cellIdentifier);
-            CMRTag *tag = (CMRTag *)[section getCellForRow:indexPath.row];
-            NSLog(@"tag name: %@", tag.name);
+            CMRTag *tag = (CMRTag *)[section cellForRow:indexPath.row];
             cell.textLabel.text = tag.name;
             cell.detailTextLabel.text = tag.count;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-            return cell;
+            break;
         }
         case CMRCellTypeTranslation: {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:section.cellIdentifier forIndexPath:indexPath];
-            
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section.cellIdentifier];
-            }
-            NSLog(@"Creating a translation cell. Section name: %@, cell identifier: %@", section.sectionTitle, section.cellIdentifier);
-            CMRTranslation *translation = (CMRTranslation *)[section getCellForRow:indexPath.row];
+            CMRTranslation *translation = (CMRTranslation *)[section cellForRow:indexPath.row];
             cell.textLabel.text = translation.chinese;
             cell.detailTextLabel.text = translation.english;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-            return cell;
+            break;
         }
         case CMRCellTypeSimilar: {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:section.cellIdentifier forIndexPath:indexPath];
-            
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:section.cellIdentifier];
-            }
-            NSLog(@"Creating a similar cell. Section name: %@, cell identifier: %@", section.sectionTitle, section.cellIdentifier);
-            CMRSimilar *similar = (CMRSimilar *)[section getCellForRow:indexPath.row];
+            CMRSimilar *similar = (CMRSimilar *)[section cellForRow:indexPath.row];
             cell.textLabel.text = similar.chinese;
             cell.detailTextLabel.text = similar.english;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-            return cell;
+            break;
         }
         default:
             break;
     }
-    
-    return nil;
+    return cell;
     
 }
 
 
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat height = 50.0f;
+    CGFloat height;
     
     //TODO: Calculate height based on size of content.
     CMRSection *sectionObj = [self.sections objectAtIndex:indexPath.section];
     switch (sectionObj.type) {
         case CMRCellTypeReview: {
+            /*
             CMRReview *review = (CMRReview *)[sectionObj getCellForRow:indexPath.row];
             NSString *text = review.text;
             height = [self getTextHeight:text min:100.0];
-        }
+             */
+            height = 132.0f;
+            break;
+       }
         case CMRCellTypeDish: {
-            CMRDish *dish = (CMRDish *)[sectionObj getCellForRow:indexPath.row];
-            CGFloat minHeight = 130.0f;
+            CMRDish *dish = (CMRDish *)[sectionObj cellForRow:indexPath.row];
             if (dish.description) {
-                minHeight = 200.0f;
+                /*
+                NSString *text = dish.description;
+                height += [self getTextHeight:text min:100.0];
+                 */
+                height = 200.0f;
+                
+            } else {
+                height = 100.0f;
             }
-            NSString *text = dish.description;
-            height = [self getTextHeight:text min:130.0];
-
+            break;
         }
             
         case CMRCellTypeImage: {
@@ -265,9 +259,13 @@
             CMRImage *image = (CMRImage *)[sectionObj getCellForRow:indexPath.row];
             height = image.image.size.height;
              */
+            break;
             
         }
-        default:
+        case CMRCellTypeSimilar:
+        case CMRCellTypeTag:
+        case CMRCellTypeTranslation:
+            height = 50.0f;
             break;
     }
     return height;
@@ -296,13 +294,13 @@
     CMRSection *section = [self.sections objectAtIndex:indexPath.section];
     switch (section.type) {
         case CMRCellTypeSimilar: {
-            CMRSimilar *similarDish = (CMRSimilar *)[section getCellForRow:indexPath.row];
+            CMRSimilar *similarDish = (CMRSimilar *)[section cellForRow:indexPath.row];
             NSString *urlString = [NSString stringWithFormat:@"http://7558c64f.ngrok.com/dish/%@", similarDish.idNumber];
             [self loadNextDishViewController:urlString];
             break;
         }
         case CMRCellTypeTag: {
-            CMRTag *tag = (CMRTag *)[section getCellForRow:indexPath.row];
+            CMRTag *tag = (CMRTag *)[section cellForRow:indexPath.row];
             NSString *urlString = [NSString stringWithFormat:@"http://7558c64f.ngrok.com/tag/%@", tag.idNumber];
             [self loadNextDishViewController:urlString];
         }
