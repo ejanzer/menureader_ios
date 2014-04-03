@@ -9,6 +9,7 @@
 #import "CMRViewController.h"
 #import "CMRTableViewController.h"
 #import "CMRRectView.h"
+#import "Server.h"
 
 @interface CMRViewController ()
 
@@ -30,6 +31,8 @@
 
 @property (nonatomic) UILabel *helperLabel;
 @property (nonatomic) UIImage *croppedImage;
+@property (nonatomic) UIView *darkRectTop;
+@property (nonatomic) UIView *darkRectBottom;
 
 @end
 
@@ -128,10 +131,12 @@
  
     // Commenting out for offline development.
     
+    // Move cropping to a separate function?
     CGRect cropRect;
     float scale = 1.0 / self.scrollView.zoomScale;
     float xOffset = self.rectView.frame.origin.x - self.scrollView.frame.origin.x;
     float yOffset = self.rectView.frame.origin.y - self.scrollView.frame.origin.y;
+    NSLog(@"rectview origin x: %f y: %f scrollview origin x: %f y: %f", self.rectView.frame.origin.x, self.rectView.frame.origin.y, self.scrollView.frame.origin.x, self.scrollView.frame.origin.y);
     cropRect.origin.x = scale * (self.scrollView.contentOffset.x + xOffset);
     cropRect.origin.y = scale * (self.scrollView.contentOffset.y + yOffset);
     cropRect.size.width = self.rectView.frame.size.width * scale;
@@ -154,7 +159,7 @@
     //NSData *imageData = UIImagePNGRepresentation(image);
     
     // Put it into a URL request
-    NSString *url = @"http://7558c64f.ngrok.com/upload";
+    NSString *url = [NSString stringWithFormat:@"%@/upload", kBaseURL];
     
     // Create request object.
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -225,6 +230,12 @@
     if (self.imageView) {
         [self.imageView removeFromSuperview];
     }
+    if (self.darkRectTop) {
+        [self.darkRectTop removeFromSuperview];
+    }
+    if (self.darkRectBottom) {
+        [self.darkRectBottom removeFromSuperview];
+    }
     
     //UIImage *image = [info valueForKey:UIImagePickerControllerEditedImage];
     UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
@@ -258,7 +269,26 @@
         self.rectView = rectView;
     }
 
+    
+    UIView *darkRectTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.mainView.frame.size.width, self.rectView.frame.origin.y)];
+    CGFloat cropRectangleBottomLeftYValue = self.rectView.frame.origin.y + self.rectView.frame.size.height;
+    CGFloat scrollViewBottomLeftYValue = self.scrollView.frame.origin.y + self.scrollView.frame.size.height;
+    UIView *darkRectBottom = [[UIView alloc] initWithFrame:CGRectMake(0, cropRectangleBottomLeftYValue, self.mainView.frame.size.width, scrollViewBottomLeftYValue - cropRectangleBottomLeftYValue)];
+    NSLog(@"Start: %f", self.rectView.frame.origin.x);
+    darkRectTop.backgroundColor = [UIColor blackColor];
+    darkRectBottom.backgroundColor = [UIColor blackColor];
+    darkRectTop.alpha = 0.5f;
+    darkRectBottom.alpha = 0.5f;
+    darkRectTop.userInteractionEnabled = NO;
+    darkRectBottom.userInteractionEnabled = NO;
+    [self.mainView addSubview:darkRectTop];
+    [self.mainView addSubview:darkRectBottom];
+    self.darkRectTop = darkRectTop;
+    self.darkRectBottom = darkRectBottom;
+
     [self.helperLabel removeFromSuperview];
+    
+    //TODO Move label to separate function.
     self.helperLabel = nil;
     self.helperLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 250, self.scrollView.frame.size.width - 100, 300)];
     self.helperLabel.text = @"Crop image around dish name.";
