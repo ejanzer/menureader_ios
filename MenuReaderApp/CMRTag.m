@@ -26,4 +26,13 @@
     return self;
 }
 
+-(instancetype)initWithName:(NSString *)name countString:(NSString *)count idNumber:(NSNumber *)idNumber {
+    if (self = [self init]) {
+        self.name = name;
+        self.count = count;
+        self.idNumber = idNumber;
+    }
+    return self;
+}
+
 @end

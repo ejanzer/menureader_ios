@@ -16,6 +16,6 @@
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
-
+-(instancetype)initWithName:(NSString *)name countString:(NSString *)count idNumber:(NSNumber *)idNumber;
 
 @end

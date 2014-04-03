@@ -27,4 +27,13 @@
     return self;
 }
 
+-(instancetype)initWithChinese:(NSString *)chinese english:(NSString *)english idNumber:(NSNumber *)idNumber {
+    if (self = [self init]) {
+        self.chinese = chinese;
+        self.english = english;
+        self.idNumber = idNumber;
+    }
+    return self;
+}
+
 @end

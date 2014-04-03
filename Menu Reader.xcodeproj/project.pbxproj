@@ -38,6 +38,7 @@
 		7EF6EAE118EC920B0003C679 /* CMRTranslation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6EAE018EC920B0003C679 /* CMRTranslation.m */; };
 		7EF6EAE418EC92FF0003C679 /* CMRSimilar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6EAE318EC92FF0003C679 /* CMRSimilar.m */; };
 		7EF6EAE818ECB53D0003C679 /* CMRDishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6EAE718ECB53D0003C679 /* CMRDishTableViewCell.m */; };
+		7EF6EAEC18EDC16C0003C679 /* CMRSearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6EAEB18EDC16C0003C679 /* CMRSearchTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,8 @@
 		7EF6EAE318EC92FF0003C679 /* CMRSimilar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRSimilar.m; sourceTree = "<group>"; };
 		7EF6EAE618ECB53D0003C679 /* CMRDishTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRDishTableViewCell.h; sourceTree = "<group>"; };
 		7EF6EAE718ECB53D0003C679 /* CMRDishTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRDishTableViewCell.m; sourceTree = "<group>"; };
+		7EF6EAEA18EDC16C0003C679 /* CMRSearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRSearchTableViewController.h; sourceTree = "<group>"; };
+		7EF6EAEB18EDC16C0003C679 /* CMRSearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRSearchTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +167,8 @@
 				7EA99AC718D8CADE00370E85 /* CMRAppDelegate.h */,
 				7EA99AED18D8D2B700370E85 /* CMRViewController.h */,
 				7EA99AEE18D8D2B800370E85 /* CMRViewController.m */,
+				7EF6EAEA18EDC16C0003C679 /* CMRSearchTableViewController.h */,
+				7EF6EAEB18EDC16C0003C679 /* CMRSearchTableViewController.m */,
 				7E15720418E0C35B007DE1F6 /* CMRRectView.h */,
 				7E15720518E0C35B007DE1F6 /* CMRRectView.m */,
 				7EA99AC818D8CADE00370E85 /* CMRAppDelegate.m */,
@@ -352,6 +357,7 @@
 				7EF6EAE118EC920B0003C679 /* CMRTranslation.m in Sources */,
 				7EF6EACF18EC6B1C0003C679 /* CMRJSONParser.m in Sources */,
 				7EF6EAD218EC7EAD0003C679 /* CMRSection.m in Sources */,
+				7EF6EAEC18EDC16C0003C679 /* CMRSearchTableViewController.m in Sources */,
 				7EA99AF018D8D2B800370E85 /* CMRViewController.m in Sources */,
 				7EF6EAD518EC7F030003C679 /* CMRImage.m in Sources */,
 				7EF6EAE418EC92FF0003C679 /* CMRSimilar.m in Sources */,

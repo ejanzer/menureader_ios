@@ -16,4 +16,5 @@
 
 -(instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
+-(instancetype)initWithChinese:(NSString *)chinese english:(NSString *)english idNumber:(NSNumber *)idNumber;
 @end

@@ -23,7 +23,7 @@
 
 @property (nonatomic) NSMutableArray *data;
 
-@property NSArray *sections;
+@property NSMutableArray *sections;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 
 @end
@@ -63,6 +63,16 @@
             } else {
                 CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
                 self.sections = [jsonParser parseJSON:jsonObject withImage:self.searchImage];
+                
+                if (self.searchImage) {
+                    CMRImage *searchImage = [[CMRImage alloc] initWithImage:self.searchImage];
+                    NSArray *images = [NSArray arrayWithObject:searchImage];
+                    
+                    CMRSection *imageSection = [[CMRSection alloc] initWithCells:images section:@"Search" cellId:@"ImageCell" type:CMRCellTypeImage];
+                    
+                    // TODO: Add to beginning of array instead of end?
+                    [self.sections insertObject:imageSection atIndex:0];
+                }
             }
             
             if (self.sections) {

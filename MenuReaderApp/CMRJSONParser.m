@@ -17,111 +17,120 @@
 
 @implementation CMRJSONParser
 
-- (NSArray *)parseJSON:(id)jsonObject withImage:(UIImage *)image {
+- (NSMutableArray *)parseJSON:(id)jsonObject withImage:(UIImage *)image {
     NSMutableArray *sectionObjects = [NSMutableArray array];
-    
-        
-    if (image) {
-        CMRImage *imageCell = [[CMRImage alloc] initWithImage:image];
-        NSArray *imageCells = [NSArray arrayWithObject:imageCell];
-        
-        CMRSection *imageSection = [[CMRSection alloc] initWithCells:imageCells section:@"Search" cellId:@"ImageCell" type:CMRCellTypeImage];
-        [sectionObjects addObject:imageSection];
-    }
     
     id object = [jsonObject objectForKey:@"dish"];
     if (object && object != [NSNull null]) {
-        NSArray *dishData = object;
-        NSMutableArray *dishCells = [[NSMutableArray alloc] init];
+        NSArray *dishDicts = object;
+        NSMutableArray *dishes = [NSMutableArray arrayWithCapacity:[dishDicts count]];
         
-        for (NSDictionary *dishDict in dishData) {
-            CMRDish *dishCell = [[CMRDish alloc] initWithDictionary:dishDict];
-            [dishCells addObject:dishCell];
+        for (NSDictionary *dishDict in dishDicts) {
+            NSString *chineseName = dishDict[@"chin_name"];
+            NSString *englishName = dishDict[@"eng_name"];
+            NSString *pinyin = dishDict[@"pinyin"];
+            NSString *dishDescription = dishDict[@"desc"];
+            CMRDish *dish = [[CMRDish alloc]initWithChineseName:chineseName englishName:englishName pinyin:pinyin description:dishDescription];
+            //CMRDish *dishCell = [[CMRDish alloc] initWithDictionary:dishDict];
+            [dishes addObject:dish];
         }
         
-        CMRSection *dishSection = [[CMRSection alloc] initWithCells:dishCells section:@"Dish" cellId:@"DishCell" type:CMRCellTypeDish];
+        CMRSection *dishSection = [[CMRSection alloc] initWithCells:dishes section:@"Dish" cellId:@"DishCell" type:CMRCellTypeDish];
         
         [sectionObjects addObject:dishSection];
     }
     
-    NSArray *imageData = [jsonObject objectForKey:@"images"];
-    if (imageData && imageData != (id)[NSNull null]) {
-        
-        NSMutableArray *imageCells = [NSMutableArray arrayWithCapacity:[imageData count]];
-        
-        for (int i = 0; i < [imageData count]; i++) {
+    object = [jsonObject objectForKey:@"images"];
+    if (object && object != (id)[NSNull null]) {
+        NSArray *imageDicts = object;
 
-            NSDictionary *imageDict = [imageData objectAtIndex:i];
-            
+        NSMutableArray *dishImages = [NSMutableArray arrayWithCapacity:[imageDicts count]];
+        
+        for (NSDictionary *imageDict in imageDicts) {
             NSData *imageData = [[NSData alloc]initWithBase64EncodedString:[imageDict objectForKey:@"data"] options:NSDataBase64DecodingIgnoreUnknownCharacters];
             UIImage *image = [UIImage imageWithData:imageData];
-            CMRImage *imageCell = [[CMRImage alloc] initWithImage:image];
-            [imageCells addObject:imageCell];
+            CMRImage *dishImage = [[CMRImage alloc] initWithImage:image];
+            [dishImages addObject:dishImage];
         }
-        CMRSection *dishImageSection = [[CMRSection alloc] initWithCells:imageCells section:@"Images" cellId:@"ImageCell" type:CMRCellTypeImage];
+        CMRSection *dishImageSection = [[CMRSection alloc] initWithCells:dishImages section:@"Images" cellId:@"ImageCell" type:CMRCellTypeImage];
         [sectionObjects addObject:dishImageSection];
     }
     
-    NSArray *reviewData = [jsonObject objectForKey:@"reviews"];
-    if (reviewData && reviewData != (id)[NSNull null]) {
+    object = [jsonObject objectForKey:@"reviews"];
+    if (object && object != (id)[NSNull null]) {
+        NSArray *reviewDicts = object;
+
+        NSMutableArray *reviews = [NSMutableArray arrayWithCapacity:[reviewDicts count]];
         
-        NSMutableArray *reviewCells = [[NSMutableArray alloc] init];
-        
-        for (int i = 0; i < [reviewData count]; i++) {
-            NSDictionary *reviewDict = [reviewData objectAtIndex:i];
-            CMRReview *reviewCell = [[CMRReview alloc] initWithDictionary:reviewDict];
-            [reviewCells addObject:reviewCell];
+        for (NSDictionary *reviewDict in reviewDicts) {
+            NSString *username = reviewDict[@"username"];
+            NSString *text = reviewDict[@"text"];
+            NSString *restaurant = reviewDict[@"restaurant"];
+            NSString *date = reviewDict[@"date"];
+            CMRReview *review = [[CMRReview alloc]initWithUsername:username text:text restaurant:restaurant date:date];
+            //CMRReview *review = [[CMRReview alloc] initWithDictionary:reviewDict];
+            [reviews addObject:review];
         }
         
-        CMRSection *reviewSection = [[CMRSection alloc] initWithCells:reviewCells section:@"Reviews" cellId:@"ReviewCell" type:CMRCellTypeReview];
+        CMRSection *reviewSection = [[CMRSection alloc] initWithCells:reviews section:@"Reviews" cellId:@"ReviewCell" type:CMRCellTypeReview];
         
         [sectionObjects addObject:reviewSection];
     }
     
-    NSArray *tagData = [jsonObject objectForKey:@"tags"];
-    if (tagData && tagData != (id)[NSNull null]) {
+    object = [jsonObject objectForKey:@"tags"];
+    if (object && object != (id)[NSNull null]) {
+        NSArray *tagDicts = object;
+        NSMutableArray *tags = [NSMutableArray arrayWithCapacity:[tagDicts count]];
         
-        NSMutableArray *tagCells = [[NSMutableArray alloc] init];
-        
-        for (int i = 0; i < [tagData count]; i++) {
-            NSDictionary *tagDict = [tagData objectAtIndex:i];
-            CMRTag *tagCell = [[CMRTag alloc] initWithDictionary:tagDict];
-            [tagCells addObject:tagCell];
+        for (NSDictionary *tagDict in tagDicts) {
+            NSString *name = tagDict[@"name"];
+            NSString *count = tagDict[@"count"];
+            NSNumber *idNumber = tagDict[@"id"];
+            CMRTag *tag = [[CMRTag alloc] initWithName:name countString:count idNumber:idNumber];
+            //CMRTag *tag = [[CMRTag alloc] initWithDictionary:tagDict];
+            [tags addObject:tag];
         }
         
-        CMRSection *tagSection = [[CMRSection alloc] initWithCells:tagCells section:@"Tags" cellId:@"TagCell" type:CMRCellTypeTag];
+        CMRSection *tagSection = [[CMRSection alloc] initWithCells:tags section:@"Tags" cellId:@"TagCell" type:CMRCellTypeTag];
         
         [sectionObjects addObject:tagSection];
     
     }
 
-    NSArray *translationData = [jsonObject objectForKey:@"translation"];
-    if (translationData && translationData != (id)[NSNull null]) {
-        NSMutableArray *translationCells = [[NSMutableArray alloc] init];
+    object = [jsonObject objectForKey:@"translation"];
+    if (object && object != (id)[NSNull null]) {
+        NSArray *translationDicts = object;
+        NSMutableArray *translations = [NSMutableArray arrayWithCapacity:[translationDicts count]];
         
-        for (int i = 0; i < [translationData count]; i++) {
-            NSDictionary *translationDict = [translationData objectAtIndex:i];
-            CMRTranslation *translationCell = [[CMRTranslation alloc] initWithDictionary:translationDict];
-            [translationCells addObject:translationCell];
+        for (NSDictionary *translationDict in translationDicts) {
+            NSString *chinese = translationDict[@"char"];
+            NSString *english = translationDict[@"english"];
+            CMRTranslation *translation = [[CMRTranslation alloc] initWithChinese:chinese english:english];
+            //CMRTranslation *translation = [[CMRTranslation alloc] initWithDictionary:translationDict];
+            [translations addObject:translation];
         }
         
-        CMRSection *translationSection = [[CMRSection alloc] initWithCells:translationCells section:@"Translation" cellId:@"TranslationCell" type:CMRCellTypeTranslation];
+        CMRSection *translationSection = [[CMRSection alloc] initWithCells:translations section:@"Translation" cellId:@"TranslationCell" type:CMRCellTypeTranslation];
         
         [sectionObjects addObject:translationSection];
     
     }
 
-    NSArray *similarData = [jsonObject objectForKey:@"similar"];
-    if (similarData && similarData != (id)[NSNull null]) {
-        NSMutableArray *similarCells = [[NSMutableArray alloc] init];
+    object = [jsonObject objectForKey:@"similar"];
+    if (object && object != (id)[NSNull null]) {
+        NSArray *similarDicts = object;
+        NSMutableArray *similarDishes = [NSMutableArray arrayWithCapacity:[similarDicts count]];
         
-        for (int i = 0; i < [similarData count]; i++) {
-            NSDictionary *similarDict = [similarData objectAtIndex:i];
-            CMRSimilar *similarCell = [[CMRSimilar alloc] initWithDictionary:similarDict];
-            [similarCells addObject:similarCell];
+        for (NSDictionary *similarDict in similarDicts) {
+            NSString *chinese = similarDict[@"chinese"];
+            NSString *english = similarDict[@"english"];
+            NSNumber *idNumber = similarDict[@"id"];
+            CMRSimilar *similarDish = [[CMRSimilar alloc] initWithChinese:chinese english:english idNumber:idNumber];
+            //CMRSimilar *similarDish = [[CMRSimilar alloc] initWithDictionary:similarDict];
+            [similarDishes addObject:similarDish];
         }
         
-        CMRSection *similarSection = [[CMRSection alloc] initWithCells:similarCells section:@"Similar Dishes" cellId:@"SimilarCell" type:CMRCellTypeSimilar];
+        CMRSection *similarSection = [[CMRSection alloc] initWithCells:similarDishes section:@"Similar Dishes" cellId:@"SimilarCell" type:CMRCellTypeSimilar];
         
         [sectionObjects addObject:similarSection];
     
