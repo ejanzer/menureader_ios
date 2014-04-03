@@ -81,6 +81,7 @@
 		7EA99AED18D8D2B700370E85 /* CMRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRViewController.h; sourceTree = "<group>"; };
 		7EA99AEE18D8D2B800370E85 /* CMRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRViewController.m; sourceTree = "<group>"; };
 		7EA99AFB18DCB28C00370E85 /* CMRDishViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CMRDishViewController.xib; sourceTree = "<group>"; };
+		7ED34D4118EDDB4900ED3F27 /* Server.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
 		7EF6EACD18EC6B1C0003C679 /* CMRJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRJSONParser.h; sourceTree = "<group>"; };
 		7EF6EACE18EC6B1C0003C679 /* CMRJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRJSONParser.m; sourceTree = "<group>"; };
 		7EF6EAD018EC7EAC0003C679 /* CMRSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRSection.h; sourceTree = "<group>"; };
@@ -132,6 +133,7 @@
 		7EA99AAA18D8CADE00370E85 = {
 			isa = PBXGroup;
 			children = (
+				7ED34D4118EDDB4900ED3F27 /* Server.h */,
 				7EA99ABE18D8CADE00370E85 /* MenuReaderApp */,
 				7EA99ADB18D8CADF00370E85 /* MenuReaderAppTests */,
 				7EA99AB518D8CADE00370E85 /* Frameworks */,
