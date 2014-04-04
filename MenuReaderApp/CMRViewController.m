@@ -28,6 +28,7 @@
 @property (nonatomic) UIImagePickerController *imagePickerController;
 @property (nonatomic) NSString *dishString;
 @property (nonatomic) NSArray *sections;
+@property (nonatomic) NSString *errorMessage;
 
 @property (nonatomic) CGRect rect;
 
@@ -222,6 +223,7 @@
         if (!jsonObject) {
             // TODO: Create function that creates a label given some text.
             NSLog(@"jsonObject does not exist. Error is %@", error);
+            self.errorMessage = @"No data received from server.";
             /*
             NSString *labelText = @"No data received from server.";
 
@@ -230,6 +232,7 @@
              */
         } else if ([jsonObject objectForKey:@"error"]) {
             NSLog(@"Error received from server.");
+            self.errorMessage = [jsonObject objectForKey:@"error"];
             /*
             NSString *labelText = [jsonObject objectForKey:@"error"];
             UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor whiteColor]];
@@ -251,10 +254,16 @@
         
         [dishVC setSections:[self.sections mutableCopy]];
         [dishVC setSearchImage:self.croppedImage];
+        if (self.errorMessage) {
+            [dishVC setErrorMessage:self.errorMessage];
+        }
     } else if ([segue.identifier isEqualToString:@"searchSegue"]) {
         CMRSearchTableViewController *searchVC = [segue destinationViewController];
         [searchVC setSections:[self.sections mutableCopy]];
         [searchVC setSearchImage:self.croppedImage];
+        if (self.errorMessage) {
+            [searchVC setErrorMessage:self.errorMessage];
+        }
     }
 }
 
@@ -325,7 +334,6 @@
     CGFloat cropRectangleBottomLeftYValue = self.rectView.frame.origin.y + self.rectView.frame.size.height;
     CGFloat scrollViewBottomLeftYValue = self.scrollView.frame.origin.y + self.scrollView.frame.size.height;
     UIView *darkRectBottom = [[UIView alloc] initWithFrame:CGRectMake(0, cropRectangleBottomLeftYValue, self.mainView.frame.size.width, scrollViewBottomLeftYValue - cropRectangleBottomLeftYValue)];
-    NSLog(@"Start: %f", self.rectView.frame.origin.x);
     darkRectTop.backgroundColor = [UIColor blackColor];
     darkRectBottom.backgroundColor = [UIColor blackColor];
     darkRectTop.alpha = 0.5f;

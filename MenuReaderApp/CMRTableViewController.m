@@ -26,6 +26,7 @@
 
 @property (readwrite) NSMutableArray *sections;
 @property (copy, readwrite) UIImage *searchImage;
+@property (readwrite) NSString *errorMessage;
 
 // This might not be necessary - self.navigationItem already has this...?
 @property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
@@ -53,7 +54,9 @@
 {
     [super viewDidLoad];
     if (self) {
-
+        if (self.errorMessage) {
+            // do stuff
+        }
         if (self.sections) {
             self.navigationItem.title = @"Dish";
             

@@ -10,8 +10,9 @@
 
 @interface CMRSearchTableViewController : UITableViewController <NSURLSessionDelegate>
 
-@property (copy, readonly) NSMutableArray *sections;
-@property(copy, readonly) UIImage *searchImage;
+@property (readonly) NSMutableArray *sections;
+@property (copy, readonly) UIImage *searchImage;
+@property (readonly) NSString *errorMessage;
 
 -(instancetype)initWithSections:(NSArray *)sections image:(UIImage *)searchImage;
 
@@ -19,5 +20,6 @@
 
 -(void)setSearchImage:(UIImage *)searchImage;
 
+-(void)setErrorMessage:(NSString *)errorMessage;
 
 @end

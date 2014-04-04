@@ -14,11 +14,14 @@
 @property (nonatomic) NSArray *testData;
 @property (copy, readonly) UIImage *searchImage;
 @property (readonly) NSMutableArray *sections;
+@property (readonly) NSString *errorMessage;
 
 -(instancetype)initWithSections:(NSArray *)sections image:(UIImage *)searchImage;
 
 -(void)setSections:(NSMutableArray *)sections;
 
 -(void)setSearchImage:(UIImage *)searchImage;
+
+-(void)setErrorMessage:(NSString *)errorMessage;
 
 @end
