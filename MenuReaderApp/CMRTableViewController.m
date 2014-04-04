@@ -24,7 +24,10 @@
 
 @property (nonatomic) NSMutableArray *data;
 
-@property NSMutableArray *sections;
+@property (readwrite) NSMutableArray *sections;
+@property (copy, readwrite) UIImage *searchImage;
+
+// This might not be necessary - self.navigationItem already has this...?
 @property (weak, nonatomic) IBOutlet UINavigationItem *navItem;
 
 @end
@@ -38,11 +41,38 @@
     return self;
 }
 
+- (instancetype)initWithSections:(NSArray *)sections image:(UIImage *)searchImage {
+    if (self = [self init]) {
+        self.sections = [sections mutableCopy];
+        self.searchImage = searchImage;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     if (self) {
 
+        if (self.sections) {
+            self.navigationItem.title = @"Dish";
+            
+            // If searchImage exists, add it to sections as a CMRImage section with the section title of "Search".
+            if (self.searchImage) {
+                CMRImage *searchImage = [[CMRImage alloc] initWithImage:self.searchImage];
+                NSArray *images = [NSArray arrayWithObject:searchImage];
+                
+                CMRSection *imageSection = [[CMRSection alloc] initWithCells:images section:@"Search" cellId:@"ImageCell" type:CMRCellTypeImage];
+                
+                [self.sections insertObject:imageSection atIndex:0];
+            }
+        } else {
+            NSString *labelText = @"No data received from server.";
+            UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor grayColor]];
+            [self.tableView addSubview:errorLabel];
+        }
+        
+        /*
         if (self.dishJSONData) {
             NSError *error = nil;
 
@@ -63,7 +93,7 @@
 
             } else {
                 CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
-                self.sections = [jsonParser parseJSON:jsonObject withImage:self.searchImage];
+                self.sections = [jsonParser parseJSON:jsonObject];
                 
                 if (self.searchImage) {
                     CMRImage *searchImage = [[CMRImage alloc] initWithImage:self.searchImage];
@@ -92,7 +122,7 @@
         } else {
             self.navItem.title = @"Search";
         }
-        
+        */
     }
 }
 
@@ -266,15 +296,15 @@
         }
             
         case CMRCellTypeImage: {
-            height = 100.0f;
-            
-            /*
-            CMRImage *image = (CMRImage *)[sectionObj.cells objectAtIndex:indexPath.row];
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:image.image];
-            imageView.contentMode = UIViewContentModeScaleAspectFit;
-            //imageView.frame = CGRectMake(0, 0, self.tableView.frame.size.width, cell.frame.size.height);
-            height = image.image.size.height;
-             */
+            if ([sectionObj.sectionTitle isEqualToString:@"Search"]) {
+                height = 100.0f;
+            } else {
+                CMRImage *image = (CMRImage *)[sectionObj.cells objectAtIndex:indexPath.row];
+                UIImageView *imageView = [[UIImageView alloc] initWithImage:image.image];
+                imageView.contentMode = UIViewContentModeScaleAspectFit;
+                //imageView.frame = CGRectMake(0, 0, self.tableView.frame.size.width, cell.frame.size.height);
+                height = image.image.size.height;
+            }
             
             break;
             

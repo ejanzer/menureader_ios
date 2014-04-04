@@ -10,6 +10,6 @@
 
 @interface CMRJSONParser : NSObject
 
--(NSMutableArray *)parseJSON:(id)jsonObject withImage:(UIImage *)image;
+-(NSArray *)parseJSON:(id)jsonObject;
 
 @end

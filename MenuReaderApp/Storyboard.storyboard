@@ -51,7 +51,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Menu Reader" id="MKJ-zK-bFR">
-                        <barButtonItem key="rightBarButtonItem" title="Upload" id="eVF-UC-bMe">
+                        <barButtonItem key="rightBarButtonItem" title="Search" id="eVF-UC-bMe">
                             <connections>
                                 <action selector="uploadImage:" destination="YIo-U6-5Zn" id="3Bn-q0-Kin"/>
                             </connections>
@@ -86,7 +86,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="83"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="English" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dv2-0m-bgZ">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="English" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="dv2-0m-bgZ">
                                             <rect key="frame" x="20" y="33" width="280" height="39"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
@@ -182,16 +182,8 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleAspectFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageCell" rowHeight="78" id="Doi-3z-Xef">
-                                <rect key="frame" x="0.0" y="401" width="320" height="78"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Doi-3z-Xef" id="iYh-ny-Zgp">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TranslationCell" textLabel="twT-0H-uDc" detailTextLabel="qpA-R9-EL9" rowHeight="78" style="IBUITableViewCellStyleValue1" id="5aJ-Ru-yEb">
-                                <rect key="frame" x="0.0" y="479" width="320" height="78"/>
+                                <rect key="frame" x="0.0" y="401" width="320" height="78"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5aJ-Ru-yEb" id="U5X-eM-Y83">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
@@ -215,7 +207,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SimilarCell" textLabel="VYH-f6-nyx" detailTextLabel="pSh-fW-Yb0" rowHeight="78" style="IBUITableViewCellStyleValue2" id="GJk-pn-gJc">
-                                <rect key="frame" x="0.0" y="557" width="320" height="78"/>
+                                <rect key="frame" x="0.0" y="479" width="320" height="78"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GJk-pn-gJc" id="dyG-vx-nF0">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
@@ -229,6 +221,30 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pSh-fW-Yb0">
+                                            <rect key="frame" x="112" y="30" width="37" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImageCell" textLabel="qqc-s5-zhV" detailTextLabel="jIv-xZ-kYR" rowHeight="78" style="IBUITableViewCellStyleValue2" id="WpZ-Pc-tJz">
+                                <rect key="frame" x="0.0" y="557" width="320" height="78"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WpZ-Pc-tJz" id="2i5-Va-iaQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qqc-s5-zhV">
+                                            <rect key="frame" x="15" y="30" width="91" height="17"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jIv-xZ-kYR">
                                             <rect key="frame" x="112" y="30" width="37" height="17"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>

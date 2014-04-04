@@ -10,6 +10,10 @@
 #import "CMRTableViewController.h"
 #import "CMRRectView.h"
 #import "Server.h"
+#import "CMRJSONParser.h"
+#import "CMRImage.h"
+#import "CMRDish.h"
+#import "CMRSearchTableViewController.h"
 
 @interface CMRViewController ()
 
@@ -23,7 +27,7 @@
 
 @property (nonatomic) UIImagePickerController *imagePickerController;
 @property (nonatomic) NSString *dishString;
-@property (nonatomic) NSData *dishData;
+@property (nonatomic) NSArray *sections;
 
 @property (nonatomic) CGRect rect;
 
@@ -136,7 +140,6 @@
     float scale = 1.0 / self.scrollView.zoomScale;
     float xOffset = self.rectView.frame.origin.x - self.scrollView.frame.origin.x;
     float yOffset = self.rectView.frame.origin.y - self.scrollView.frame.origin.y;
-    NSLog(@"rectview origin x: %f y: %f scrollview origin x: %f y: %f", self.rectView.frame.origin.x, self.rectView.frame.origin.y, self.scrollView.frame.origin.x, self.scrollView.frame.origin.y);
     cropRect.origin.x = scale * (self.scrollView.contentOffset.x + xOffset);
     cropRect.origin.y = scale * (self.scrollView.contentOffset.y + yOffset);
     cropRect.size.width = self.rectView.frame.size.width * scale;
@@ -178,12 +181,22 @@
     // Create upload task.
     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:imageData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        self.dishData = data;
+        NSArray *sections = [self parseJSON:data];
+        self.sections = sections;
         
-        // queue push segue
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self performSegueWithIdentifier:@"dishSegue" sender:self];
-        });
+        CMRSection *firstSection = [sections objectAtIndex:0];
+        if ([firstSection.sectionTitle isEqualToString:@"Dish"]) {
+            // queue dish segue
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self performSegueWithIdentifier:@"dishSegue" sender:self];
+            });
+
+        } else {
+            // queue search segue
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self performSegueWithIdentifier:@"searchSegue" sender:self];
+            });
+        }
         
         [self.uploadButton setEnabled:YES];
     }];
@@ -200,13 +213,51 @@
     
 }
 
+- (NSArray *)parseJSON:JSONData {
+    NSArray *sections = @[];
+    if (JSONData) {
+        NSError *error = nil;
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:&error];
+        
+        if (!jsonObject) {
+            // TODO: Create function that creates a label given some text.
+            NSLog(@"jsonObject does not exist. Error is %@", error);
+            /*
+            NSString *labelText = @"No data received from server.";
+
+            UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor grayColor]];
+            [self.tableView addSubview:errorLabel];
+             */
+        } else if ([jsonObject objectForKey:@"error"]) {
+            NSLog(@"Error received from server.");
+            /*
+            NSString *labelText = [jsonObject objectForKey:@"error"];
+            UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor whiteColor]];
+            [self.tableView addSubview:errorLabel];
+            */
+        } else {
+            CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
+            sections = [jsonParser parseJSON:jsonObject];
+        }
+    }
+    return sections;
+}
+
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"dishSegue"]) {
+        
         CMRTableViewController *dishVC = [segue destinationViewController];
-        dishVC.dishJSONData = self.dishData;
-        dishVC.searchImage = self.croppedImage;
+        
+        [dishVC setSections:[self.sections mutableCopy]];
+        [dishVC setSearchImage:self.croppedImage];
+    } else if ([segue.identifier isEqualToString:@"searchSegue"]) {
+        CMRSearchTableViewController *searchVC = [segue destinationViewController];
+        [searchVC setSections:[self.sections mutableCopy]];
+        [searchVC setSearchImage:self.croppedImage];
     }
 }
+
 
 - (UIImage *)fixImageOrientation:(UIImage *)image {
     if (image.imageOrientation == UIImageOrientationUp) return image;

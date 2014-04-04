@@ -17,7 +17,7 @@
 
 @implementation CMRJSONParser
 
-- (NSMutableArray *)parseJSON:(id)jsonObject withImage:(UIImage *)image {
+- (NSArray *)parseJSON:(id)jsonObject {
     NSMutableArray *sectionObjects = [NSMutableArray array];
     
     id object = [jsonObject objectForKey:@"dish"];
@@ -135,8 +135,8 @@
         [sectionObjects addObject:similarSection];
     
     }
-
-    return sectionObjects;
+    NSArray *sections = [NSArray arrayWithArray:sectionObjects];
+    return sections;
 }
 
 

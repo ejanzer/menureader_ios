@@ -10,8 +10,15 @@
 
 @interface CMRTableViewController : UITableViewController <NSURLSessionDelegate>
 
-@property(nonatomic) NSData *dishJSONData;
-@property(nonatomic) NSArray *testData;
-@property(nonatomic) UIImage *searchImage;
+@property (nonatomic) NSData *dishJSONData;
+@property (nonatomic) NSArray *testData;
+@property (copy, readonly) UIImage *searchImage;
+@property (readonly) NSMutableArray *sections;
+
+-(instancetype)initWithSections:(NSArray *)sections image:(UIImage *)searchImage;
+
+-(void)setSections:(NSMutableArray *)sections;
+
+-(void)setSearchImage:(UIImage *)searchImage;
 
 @end

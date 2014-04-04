@@ -8,10 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMRSearchTableViewController : UITableViewController
+@interface CMRSearchTableViewController : UITableViewController <NSURLSessionDelegate>
 
-@property (copy, readonly) NSArray *sections;
+@property (copy, readonly) NSMutableArray *sections;
+@property(copy, readonly) UIImage *searchImage;
 
--(instancetype)initWithSections:(NSArray *)sections;
+-(instancetype)initWithSections:(NSArray *)sections image:(UIImage *)searchImage;
+
+-(void)setSections:(NSMutableArray *)sections;
+
+-(void)setSearchImage:(UIImage *)searchImage;
+
 
 @end
