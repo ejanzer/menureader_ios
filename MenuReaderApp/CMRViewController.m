@@ -182,15 +182,22 @@
     // Create upload task.
     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:imageData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSArray *sections = [self parseJSON:data];
-        self.sections = sections;
+        self.sections = [self parseJSON:data];
         
-        CMRSection *firstSection = [sections objectAtIndex:0];
-        if ([firstSection.sectionTitle isEqualToString:@"Dish"]) {
-            // queue dish segue
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self performSegueWithIdentifier:@"dishSegue" sender:self];
-            });
+        if (self.sections) {
+            CMRSection *firstSection = [self.sections objectAtIndex:0];
+            if ([firstSection.sectionTitle isEqualToString:@"Dish"]) {
+                // queue dish segue
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self performSegueWithIdentifier:@"dishSegue" sender:self];
+                });
+                
+            } else {
+                // queue search segue
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self performSegueWithIdentifier:@"searchSegue" sender:self];
+                });
+            }
 
         } else {
             // queue search segue
@@ -215,29 +222,18 @@
 }
 
 - (NSArray *)parseJSON:JSONData {
-    NSArray *sections = @[];
+    NSArray *sections = nil;
     if (JSONData) {
         NSError *error = nil;
         id jsonObject = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:&error];
         
         if (!jsonObject) {
-            // TODO: Create function that creates a label given some text.
             NSLog(@"jsonObject does not exist. Error is %@", error);
             self.errorMessage = @"No data received from server.";
-            /*
-            NSString *labelText = @"No data received from server.";
 
-            UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor grayColor]];
-            [self.tableView addSubview:errorLabel];
-             */
         } else if ([jsonObject objectForKey:@"error"]) {
             NSLog(@"Error received from server.");
             self.errorMessage = [jsonObject objectForKey:@"error"];
-            /*
-            NSString *labelText = [jsonObject objectForKey:@"error"];
-            UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor whiteColor]];
-            [self.tableView addSubview:errorLabel];
-            */
         } else {
             CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
             sections = [jsonParser parseJSON:jsonObject];

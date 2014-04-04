@@ -9,7 +9,7 @@
 #ifndef Menu_Reader_Server_h
 #define Menu_Reader_Server_h
 
-#define kBaseURL @"http://7558c64f.ngrok.com"
+#define kBaseURL @"http://3fc7ac7c.ngrok.com"
 
 #endif
 

@@ -73,7 +73,7 @@
         <!--Table View Controller - dishTableViewController-->
         <scene sceneID="c0I-t1-Wkd">
             <objects>
-                <tableViewController storyboardIdentifier="tableViewController" title="dishTableViewController" id="dcH-Mb-hjb" customClass="CMRTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="dishTableViewController" title="dishTableViewController" id="dcH-Mb-hjb" customClass="CMRTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="9xk-LM-mEC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -274,7 +274,7 @@
         <!--Search Table View Controller - searchTableViewController-->
         <scene sceneID="i9C-kH-dGu">
             <objects>
-                <tableViewController title="searchTableViewController" id="2dA-5k-5gH" customClass="CMRSearchTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="searchTableViewController" title="searchTableViewController" id="2dA-5k-5gH" customClass="CMRSearchTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="iZ6-AW-cHt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

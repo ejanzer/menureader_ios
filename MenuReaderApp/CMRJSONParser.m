@@ -136,7 +136,11 @@
     
     }
     NSArray *sections = [NSArray arrayWithArray:sectionObjects];
-    return sections;
+    if ([sections count] > 0) {
+        return sections;
+    }
+    
+    return nil;
 }
 
 
