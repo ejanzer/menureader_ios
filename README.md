@@ -7,23 +7,23 @@ This repository has the Xcode project for the iOS application. For the server co
 ## How to use it
 ![Screenshot 1: Open the app](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app1.jpg)
 
-Take a photo of a menu or choose one from your photo library.
+1. Take a photo of a menu or choose one from your photo library.
 
 ![Screenshot 2: Take a photo](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app2.jpg)
 
-Crop the image around the dish you’d like to look up.
+2. Crop the image around the dish you’d like to look up.
 
 ![Screenshot 3: Crop the image](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app3.jpg)
 
-Tap “Search” to upload the image to the server.
+3. Tap “Search” to upload the image to the server.
 
 ![Screenshot 4: Dish information](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app4.jpg)
 
-If the dish exists, the server will return some information about the dish. Tap on a tag to see other dishes with the same tag.
+4a. If the dish exists, the server will return some information about the dish. Tap on a tag to see other dishes with the same tag.
 
 ![Screenshot 5: Reviews and tags](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app5.jpg)
 
-If the dish doesn’t exist, the server will try to translate the dish name using [CEDICT](http://cc-cedict.org/wiki/). Tap on a similar dish to go to that dish’s page.
+4b. If the dish doesn’t exist, the server will try to translate the dish name using [CEDICT](http://cc-cedict.org/wiki/). Tap on a similar dish to go to that dish’s page.
 
 ## How it works
 
@@ -33,19 +33,19 @@ If Tesseract returns characters, the server looks them up first in a dishes tabl
 
 ### Installation
 
-Clone the repository.
+1. Clone the repository.
 
 <code>git clone https://github.com/ejanzer/menureader_ios.git</code>
 
-Open the directory with Xcode.
+2. Open the directory with Xcode.
 
-In <code>Server.h</code>, change <code>kBaseURL</code> to the address of your Python server ([find the server code here](https://github.com/ejanzer/menureader))
+3. In <code>Server.h</code>, change <code>kBaseURL</code> to the address of your Python server ([find the server code here](https://github.com/ejanzer/menureader))
 
-Connect your iPhone.
+4. Connect your iPhone.
 
-Change the target device from the simulator to your connected device (top left corner).
+5. Change the target device from the simulator to your connected device (top left corner).
 
-Build and run!
+6. Build and run!
 
 ### Notes
 
