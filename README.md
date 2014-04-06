@@ -5,25 +5,26 @@ Chinese Menu Reader is an iOS application that takes a picture of a dish name on
 This repository has the Xcode project for the iOS application. For the server code, [check out this repository](https://github.com/ejanzer/menureader).
 
 ## How to use it
-![Screenshot 1: Open the app](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app1.jpg)
 
 1. Take a photo of a menu or choose one from your photo library.
 
-![Screenshot 2: Take a photo](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app2.jpg)
+    ![Screenshot 1: Open the app](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app1.jpg)
+
+    ![Screenshot 2: Take a photo](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app2.jpg)
 
 2. Crop the image around the dish you’d like to look up.
 
-![Screenshot 3: Crop the image](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app3.jpg)
+    ![Screenshot 3: Crop the image](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app3.jpg)
 
 3. Tap “Search” to upload the image to the server.
 
-![Screenshot 4: Dish information](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app4.jpg)
+    ![Screenshot 4: Dish information](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app4.jpg)
 
-4a. If the dish exists, the server will return some information about the dish. Tap on a tag to see other dishes with the same tag.
+4. If the dish exists, the server will return some information about the dish. Tap on a tag to see other dishes with the same tag.
 
-![Screenshot 5: Reviews and tags](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app5.jpg)
+    ![Screenshot 5: Reviews and tags](https://raw.githubusercontent.com/ejanzer/menureader/master/screenshots/app5.jpg)
 
-4b. If the dish doesn’t exist, the server will try to translate the dish name using [CEDICT](http://cc-cedict.org/wiki/). Tap on a similar dish to go to that dish’s page.
+5. If the dish doesn’t exist, the server will try to translate the dish name using [CEDICT](http://cc-cedict.org/wiki/). Tap on a similar dish to go to that dish’s page.
 
 ## How it works
 
@@ -35,7 +36,7 @@ If Tesseract returns characters, the server looks them up first in a dishes tabl
 
 1. Clone the repository.
 
-<code>git clone https://github.com/ejanzer/menureader_ios.git</code>
+    <code>git clone https://github.com/ejanzer/menureader_ios.git</code>
 
 2. Open the directory with Xcode.
 
