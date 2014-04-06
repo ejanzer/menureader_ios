@@ -263,9 +263,6 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Dish" id="YXD-MD-V5h"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="navItem" destination="YXD-MD-V5h" id="uB6-lg-1Fi"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GRr-uZ-skl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

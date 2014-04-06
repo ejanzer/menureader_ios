@@ -86,7 +86,41 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Function called when a segue is about to take place.
+    
+    // If the next VC is a dish, set sections data and/or error message on that VC.
+    if ([segue.identifier isEqualToString:@"dishSegue"]) {
+        CMRDishTableViewController *dishVC = [segue destinationViewController];
+        if (self.sections) {
+            [dishVC setSections:[self.sections mutableCopy]];
+        }
+        if (self.croppedImage) {
+            [dishVC setSearchImage:self.croppedImage];
+        }
+        if (self.errorMessage) {
+            [dishVC setErrorMessage:self.errorMessage];
+        }
+        
+        // If the next VC is a search, set sections and/or error message on that VC.
+    } else if ([segue.identifier isEqualToString:@"searchSegue"]) {
+        CMRSearchTableViewController *searchVC = [segue destinationViewController];
+        if (self.sections) {
+            [searchVC setSections:[self.sections mutableCopy]];
+        }
+        if (self.croppedImage) {
+            [searchVC setSearchImage:self.croppedImage];
+        }
+        if (self.errorMessage) {
+            [searchVC setErrorMessage:self.errorMessage];
+        }
+    }
+}
+
+#pragma mark - Methods for loading imagePickerController
 
 - (IBAction)showImagePickerForCamera:(id)sender {
     [self showImagePickerForSourceType:UIImagePickerControllerSourceTypeCamera];
@@ -124,6 +158,10 @@
     // Display the imagePickerController.
     [self presentViewController:self.imagePickerController animated:YES completion:nil];
 }
+
+
+#pragma mark - Methods for manipulating images
+
 
 - (UIImage *)fixImageOrientation:(UIImage *)image {
     // Fix the orientation of the image, if it's not right-side up.
@@ -169,16 +207,18 @@
     return croppedImage;
 }
 
+#pragma mark - Navigation methods
+
 - (IBAction)uploadImage:(id)sender {
     // Function called when user taps "Search" after choosing an image.
     // Uploads the image within the crop box to the server, receives data in response, and tells the storyboard which view controller to load next based on whether or not it contains a dish.
     
     // Disable the Search button to prevent multiple requests to the server with the same image.
     [self.uploadButton setEnabled:NO];
-     
+    
     // Crop the image based on the location of the crop box.
     UIImage *croppedImage = [self getImageInCropRectangle];
-
+    
     // Save this to send to the next view controller.
     self.croppedImage = croppedImage;
     
@@ -241,7 +281,7 @@
                 });
             }
             
-
+            
         } else if (error) {
             NSLog(@"There was an error with the upload task. Error: %@", error);
             self.errorMessage = @"Unable to reach server.";
@@ -260,37 +300,6 @@
     
     [uploadTask resume];
     
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Function called when a segue is about to take place.
-    
-    // If the next VC is a dish, set sections data and/or error message on that VC.
-    if ([segue.identifier isEqualToString:@"dishSegue"]) {
-        CMRDishTableViewController *dishVC = [segue destinationViewController];
-        if (self.sections) {
-            [dishVC setSections:[self.sections mutableCopy]];
-        }
-        if (self.croppedImage) {
-            [dishVC setSearchImage:self.croppedImage];
-        }
-        if (self.errorMessage) {
-            [dishVC setErrorMessage:self.errorMessage];
-        }
-        
-    // If the next VC is a search, set sections and/or error message on that VC.
-    } else if ([segue.identifier isEqualToString:@"searchSegue"]) {
-        CMRSearchTableViewController *searchVC = [segue destinationViewController];
-        if (self.sections) {
-            [searchVC setSections:[self.sections mutableCopy]];
-        }
-        if (self.croppedImage) {
-            [searchVC setSearchImage:self.croppedImage];            
-        }
-        if (self.errorMessage) {
-            [searchVC setErrorMessage:self.errorMessage];
-        }
-    }
 }
 
 #pragma mark – UIImagePickerControllerDelegate
@@ -346,7 +355,7 @@
     // I want to "dim" the rest of the image outside the cropping rectangle.
     // I did this by putting two black rectangles with 0.5 alpha above and below the cropping rectangle.
     // This won't work well for landscape mode.
-    // TODO: Research a better way to do this.
+    // TODO: Research a better way to have an overlay around an object.
     self.topOverlay = [[CMRImageOverlayDarkRectView alloc] initWithFrame:CGRectMake(0, 0, self.mainView.frame.size.width, self.rectView.frame.origin.y)];
     CGFloat cropRectangleBottomLeftYValue = self.rectView.frame.origin.y + self.rectView.frame.size.height;
     CGFloat scrollViewBottomLeftYValue = self.scrollView.frame.origin.y + self.scrollView.frame.size.height;
@@ -357,7 +366,6 @@
 
     [self.helperLabel removeFromSuperview];
     
-    //TODO Move label to separate function.
     self.helperLabel = [[CMRHelperLabel alloc] initWithFrame:CGRectMake(50, 250, self.scrollView.frame.size.width - 100, 300) text:@"Crop image around dish name." color:[UIColor whiteColor]];
     [self.mainView addSubview:self.helperLabel];
     
