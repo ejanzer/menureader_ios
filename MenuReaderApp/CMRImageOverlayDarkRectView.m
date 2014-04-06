@@ -14,7 +14,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
+        self.backgroundColor = [UIColor blackColor];
+        self.alpha = 0.5f;
+        self.userInteractionEnabled = NO;
     }
     return self;
 }

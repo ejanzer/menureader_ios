@@ -15,6 +15,7 @@
 #import "CMRDish.h"
 #import "CMRSearchTableViewController.h"
 #import "CMRHelperLabel.h"
+#import "CMRImageOverlayDarkRectView.h"
 
 @interface CMRImagePickerViewController ()
 
@@ -36,8 +37,8 @@
 
 @property (nonatomic) UILabel *helperLabel;
 @property (nonatomic) UIImage *croppedImage;
-@property (nonatomic) UIView *darkRectTop;
-@property (nonatomic) UIView *darkRectBottom;
+@property (nonatomic) UIView *topOverlay;
+@property (nonatomic) UIView *bottomOverlay;
 
 @end
 
@@ -304,11 +305,11 @@
     if (self.imageView) {
         [self.imageView removeFromSuperview];
     }
-    if (self.darkRectTop) {
-        [self.darkRectTop removeFromSuperview];
+    if (self.topOverlay) {
+        [self.topOverlay removeFromSuperview];
     }
-    if (self.darkRectBottom) {
-        [self.darkRectBottom removeFromSuperview];
+    if (self.bottomOverlay) {
+        [self.bottomOverlay removeFromSuperview];
     }
     
     UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
@@ -346,21 +347,13 @@
     // I did this by putting two black rectangles with 0.5 alpha above and below the cropping rectangle.
     // This won't work well for landscape mode.
     // TODO: Research a better way to do this.
-    // TODO: Move to a separate function – duplicate code.
-    UIView *darkRectTop = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.mainView.frame.size.width, self.rectView.frame.origin.y)];
+    self.topOverlay = [[CMRImageOverlayDarkRectView alloc] initWithFrame:CGRectMake(0, 0, self.mainView.frame.size.width, self.rectView.frame.origin.y)];
     CGFloat cropRectangleBottomLeftYValue = self.rectView.frame.origin.y + self.rectView.frame.size.height;
     CGFloat scrollViewBottomLeftYValue = self.scrollView.frame.origin.y + self.scrollView.frame.size.height;
-    UIView *darkRectBottom = [[UIView alloc] initWithFrame:CGRectMake(0, cropRectangleBottomLeftYValue, self.mainView.frame.size.width, scrollViewBottomLeftYValue - cropRectangleBottomLeftYValue)];
-    darkRectTop.backgroundColor = [UIColor blackColor];
-    darkRectBottom.backgroundColor = [UIColor blackColor];
-    darkRectTop.alpha = 0.5f;
-    darkRectBottom.alpha = 0.5f;
-    darkRectTop.userInteractionEnabled = NO;
-    darkRectBottom.userInteractionEnabled = NO;
-    [self.mainView addSubview:darkRectTop];
-    [self.mainView addSubview:darkRectBottom];
-    self.darkRectTop = darkRectTop;
-    self.darkRectBottom = darkRectBottom;
+    self.bottomOverlay = [[CMRImageOverlayDarkRectView alloc] initWithFrame:CGRectMake(0, cropRectangleBottomLeftYValue, self.mainView.frame.size.width, scrollViewBottomLeftYValue - cropRectangleBottomLeftYValue)];
+    
+    [self.mainView addSubview:self.topOverlay];
+    [self.mainView addSubview:self.bottomOverlay];
 
     [self.helperLabel removeFromSuperview];
     
