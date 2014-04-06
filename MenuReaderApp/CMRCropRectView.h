@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMRRectView : UIView
+@interface CMRCropRectView : UIView
 
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMRTableViewController : UITableViewController <NSURLSessionDelegate>
+@interface CMRDishTableViewController : UITableViewController <NSURLSessionDelegate>
 
 @property (nonatomic) NSData *dishJSONData;
 @property (nonatomic) NSArray *testData;

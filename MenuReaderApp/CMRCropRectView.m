@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Emily Janzer. All rights reserved.
 //
 
-#import "CMRRectView.h"
+#import "CMRCropRectView.h"
 
-@implementation CMRRectView
+@implementation CMRCropRectView
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];

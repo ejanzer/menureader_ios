@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller - Menu Reader-->
+        <!--Image Picker View Controller - Menu Reader-->
         <scene sceneID="8wd-eZ-sHq">
             <objects>
-                <viewController id="YIo-U6-5Zn" customClass="CMRViewController" sceneMemberID="viewController">
+                <viewController id="YIo-U6-5Zn" customClass="CMRImagePickerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9Mz-7F-EcW"/>
                         <viewControllerLayoutGuide type="bottom" id="x6b-aI-VZZ"/>
@@ -70,10 +70,10 @@
             </objects>
             <point key="canvasLocation" x="1549" y="-35"/>
         </scene>
-        <!--Table View Controller - dishTableViewController-->
+        <!--Dish Table View Controller - dishTableViewController-->
         <scene sceneID="c0I-t1-Wkd">
             <objects>
-                <tableViewController storyboardIdentifier="dishTableViewController" title="dishTableViewController" id="dcH-Mb-hjb" customClass="CMRTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="dishTableViewController" title="dishTableViewController" id="dcH-Mb-hjb" customClass="CMRDishTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="9xk-LM-mEC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

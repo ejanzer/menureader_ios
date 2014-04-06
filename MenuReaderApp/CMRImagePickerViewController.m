@@ -6,16 +6,17 @@
 //  Copyright (c) 2014 Emily Janzer. All rights reserved.
 //
 
-#import "CMRViewController.h"
-#import "CMRTableViewController.h"
-#import "CMRRectView.h"
+#import "CMRImagePickerViewController.h"
+#import "CMRDishTableViewController.h"
+#import "CMRCropRectView.h"
 #import "Server.h"
 #import "CMRJSONParser.h"
 #import "CMRImage.h"
 #import "CMRDish.h"
 #import "CMRSearchTableViewController.h"
+#import "CMRHelperLabel.h"
 
-@interface CMRViewController ()
+@interface CMRImagePickerViewController ()
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIView *mainView;
@@ -23,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @property (nonatomic) UIImageView *imageView;
-@property (nonatomic) CMRRectView *rectView;
+@property (nonatomic) CMRCropRectView *rectView;
 
 @property (nonatomic) UIImagePickerController *imagePickerController;
 @property (nonatomic) NSArray *sections;
@@ -40,7 +41,7 @@
 
 @end
 
-@implementation CMRViewController
+@implementation CMRImagePickerViewController
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -69,14 +70,8 @@
     if (!self.imageView) {
         [self.uploadButton setEnabled:NO];
         
-        // TODO: Subclass label, create custom initialize?
-        self.helperLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 150, self.scrollView.frame.size.width - 100, 150)];
-        self.helperLabel.text = @"Take a picture of a menu.";
-        self.helperLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.helperLabel.numberOfLines = 0;
-        self.helperLabel.textAlignment = NSTextAlignmentCenter;
-        self.helperLabel.textColor = [UIColor lightGrayColor];
-        self.helperLabel.font = [UIFont systemFontOfSize:25.0f];
+        self.helperLabel = [[CMRHelperLabel alloc] initWithFrame:CGRectMake(50, 150, self.scrollView.frame.size.width - 100, 150) text:@"Take a picture of a menu." color:[UIColor lightGrayColor]];
+        
         [self.mainView addSubview:self.helperLabel];
         
     } else {
@@ -271,7 +266,7 @@
     
     // If the next VC is a dish, set sections data and/or error message on that VC.
     if ([segue.identifier isEqualToString:@"dishSegue"]) {
-        CMRTableViewController *dishVC = [segue destinationViewController];
+        CMRDishTableViewController *dishVC = [segue destinationViewController];
         if (self.sections) {
             [dishVC setSections:[self.sections mutableCopy]];
         }
@@ -343,7 +338,7 @@
     
     if (!self.rectView) {
         // Initialize cropping rectangle if it's not already there.
-        CMRRectView *rectView = [[CMRRectView alloc] initWithFrame:self.rect];
+        CMRCropRectView *rectView = [[CMRCropRectView alloc] initWithFrame:self.rect];
         self.rectView = rectView;
     }
 
@@ -370,16 +365,7 @@
     [self.helperLabel removeFromSuperview];
     
     //TODO Move label to separate function.
-    self.helperLabel = nil;
-    self.helperLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 250, self.scrollView.frame.size.width - 100, 300)];
-    self.helperLabel.text = @"Crop image around dish name.";
-    self.helperLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.helperLabel.numberOfLines = 0;
-    self.helperLabel.textAlignment = NSTextAlignmentCenter;
-    self.helperLabel.textColor = [UIColor whiteColor];
-    self.helperLabel.shadowOffset = CGSizeZero;
-    self.helperLabel.shadowColor = [UIColor blackColor];
-    self.helperLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:25.0f];
+    self.helperLabel = [[CMRHelperLabel alloc] initWithFrame:CGRectMake(50, 250, self.scrollView.frame.size.width - 100, 300) text:@"Crop image around dish name." color:[UIColor whiteColor]];
     [self.mainView addSubview:self.helperLabel];
     
     [self.mainView addSubview:self.rectView];

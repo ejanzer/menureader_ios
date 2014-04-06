@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CMRViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, NSURLSessionDelegate, UIScrollViewDelegate>
+@interface CMRImagePickerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, NSURLSessionDelegate, UIScrollViewDelegate>
 
 @end

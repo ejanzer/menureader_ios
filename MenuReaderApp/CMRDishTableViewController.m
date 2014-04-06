@@ -7,7 +7,7 @@
 //
 
 #import "Server.h"
-#import "CMRTableViewController.h"
+#import "CMRDishTableViewController.h"
 #import "CMRReviewTableViewCell.h"
 #import "CMRAppDelegate.h"
 #import "CMRJSONParser.h"
@@ -19,8 +19,9 @@
 #import "CMRTranslation.h"
 #import "CMRSimilar.h"
 #import "CMRDishTableViewCell.h"
+#import "CMRHelperLabel.h"
 
-@interface CMRTableViewController ()
+@interface CMRDishTableViewController ()
 
 @property (nonatomic) NSMutableArray *data;
 
@@ -36,7 +37,7 @@
 
 @end
 
-@implementation CMRTableViewController
+@implementation CMRDishTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -73,23 +74,10 @@
                 [self.sections insertObject:imageSection atIndex:0];
             }
         } else {
-            NSString *labelText = @"No data received from server.";
-            UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor grayColor]];
+            CMRHelperLabel *errorLabel = [[CMRHelperLabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) text:@"No data received from server." color:[UIColor grayColor]];
             [self.tableView addSubview:errorLabel];
         }
     }
-}
-
-- (UILabel *)createErrorLabel: (NSString *)text frame:(CGRect)frame color:(UIColor *)color {
-    UILabel *errorLabel = [[UILabel alloc] initWithFrame:frame];
-    errorLabel.textColor = [UIColor lightGrayColor];
-    errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    errorLabel.numberOfLines = 0;
-    errorLabel.font = [UIFont systemFontOfSize:30.0f];
-    errorLabel.textAlignment = NSTextAlignmentCenter;
-    errorLabel.text = text;
-    
-    return errorLabel;
 }
 
 - (void)didReceiveMemoryWarning
@@ -314,7 +302,7 @@
 
 - (void)queueNextSearchTableViewControllerWithSections:(NSArray *)sections errorMessage:(NSString *)errorMessage {
     UIStoryboard *storyboard = self.storyboard;
-    CMRTableViewController *newSearchVC = [storyboard instantiateViewControllerWithIdentifier:@"searchTableViewController"];
+    CMRDishTableViewController *newSearchVC = [storyboard instantiateViewControllerWithIdentifier:@"searchTableViewController"];
     
     if (sections) {
         [newSearchVC setSections:[sections mutableCopy]];
@@ -333,7 +321,7 @@
 
 - (void)queueNextDishTableViewControllerWithSections:(NSArray *)sections errorMessage:(NSString *)errorMessage {
     UIStoryboard *storyboard = self.storyboard;
-    CMRTableViewController *newDishVC = [storyboard instantiateViewControllerWithIdentifier:@"dishTableViewController"];
+    CMRDishTableViewController *newDishVC = [storyboard instantiateViewControllerWithIdentifier:@"dishTableViewController"];
     
     if (sections) {
         [newDishVC setSections:[sections mutableCopy]];

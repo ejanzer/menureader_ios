@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7E15720618E0C35B007DE1F6 /* CMRRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15720518E0C35B007DE1F6 /* CMRRectView.m */; };
-		7E15720918E47F70007DE1F6 /* CMRTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15720818E47F70007DE1F6 /* CMRTableViewController.m */; };
+		7E15720618E0C35B007DE1F6 /* CMRCropRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15720518E0C35B007DE1F6 /* CMRCropRectView.m */; };
+		7E15720918E47F70007DE1F6 /* CMRDishTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15720818E47F70007DE1F6 /* CMRDishTableViewController.m */; };
 		7E15720C18E74220007DE1F6 /* CMRReviewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E15720B18E74220007DE1F6 /* CMRReviewTableViewCell.m */; };
-		7E15721018E78409007DE1F6 /* OverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E15720F18E78409007DE1F6 /* OverlayView.xib */; };
+		7E5106E418F2035D00F9AC87 /* CMRHelperLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5106E318F2035D00F9AC87 /* CMRHelperLabel.m */; };
+		7E5106E818F203B700F9AC87 /* CMRImageOverlayDarkRectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5106E718F203B700F9AC87 /* CMRImageOverlayDarkRectView.m */; };
 		7EA99AB718D8CADE00370E85 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA99AB618D8CADE00370E85 /* Foundation.framework */; };
 		7EA99AB918D8CADE00370E85 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA99AB818D8CADE00370E85 /* CoreGraphics.framework */; };
 		7EA99ABB18D8CADE00370E85 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA99ABA18D8CADE00370E85 /* UIKit.framework */; };
@@ -27,8 +28,7 @@
 		7EA99AE018D8CADF00370E85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7EA99ADE18D8CADF00370E85 /* InfoPlist.strings */; };
 		7EA99AE218D8CADF00370E85 /* MenuReaderAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA99AE118D8CADF00370E85 /* MenuReaderAppTests.m */; };
 		7EA99AEC18D8CB8500370E85 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */; };
-		7EA99AF018D8D2B800370E85 /* CMRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA99AEE18D8D2B800370E85 /* CMRViewController.m */; };
-		7EA99AFD18DCB28C00370E85 /* CMRDishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7EA99AFB18DCB28C00370E85 /* CMRDishViewController.xib */; };
+		7EA99AF018D8D2B800370E85 /* CMRImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA99AEE18D8D2B800370E85 /* CMRImagePickerViewController.m */; };
 		7EF6EACF18EC6B1C0003C679 /* CMRJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6EACE18EC6B1C0003C679 /* CMRJSONParser.m */; };
 		7EF6EAD218EC7EAD0003C679 /* CMRSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6EAD118EC7EAD0003C679 /* CMRSection.m */; };
 		7EF6EAD518EC7F030003C679 /* CMRImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6EAD418EC7F030003C679 /* CMRImage.m */; };
@@ -52,13 +52,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7E15720418E0C35B007DE1F6 /* CMRRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRRectView.h; sourceTree = "<group>"; };
-		7E15720518E0C35B007DE1F6 /* CMRRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRRectView.m; sourceTree = "<group>"; };
-		7E15720718E47F6F007DE1F6 /* CMRTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRTableViewController.h; sourceTree = "<group>"; };
-		7E15720818E47F70007DE1F6 /* CMRTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRTableViewController.m; sourceTree = "<group>"; };
+		7E15720418E0C35B007DE1F6 /* CMRCropRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRCropRectView.h; sourceTree = "<group>"; };
+		7E15720518E0C35B007DE1F6 /* CMRCropRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRCropRectView.m; sourceTree = "<group>"; };
+		7E15720718E47F6F007DE1F6 /* CMRDishTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRDishTableViewController.h; sourceTree = "<group>"; };
+		7E15720818E47F70007DE1F6 /* CMRDishTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRDishTableViewController.m; sourceTree = "<group>"; };
 		7E15720A18E74220007DE1F6 /* CMRReviewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRReviewTableViewCell.h; sourceTree = "<group>"; };
 		7E15720B18E74220007DE1F6 /* CMRReviewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRReviewTableViewCell.m; sourceTree = "<group>"; };
-		7E15720F18E78409007DE1F6 /* OverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OverlayView.xib; path = ../OverlayView.xib; sourceTree = "<group>"; };
+		7E5106E218F2035D00F9AC87 /* CMRHelperLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRHelperLabel.h; sourceTree = "<group>"; };
+		7E5106E318F2035D00F9AC87 /* CMRHelperLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRHelperLabel.m; sourceTree = "<group>"; };
+		7E5106E618F203B700F9AC87 /* CMRImageOverlayDarkRectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRImageOverlayDarkRectView.h; sourceTree = "<group>"; };
+		7E5106E718F203B700F9AC87 /* CMRImageOverlayDarkRectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRImageOverlayDarkRectView.m; sourceTree = "<group>"; };
 		7EA99AB318D8CADE00370E85 /* MenuReaderApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MenuReaderApp.app; path = "Menu Reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EA99AB618D8CADE00370E85 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7EA99AB818D8CADE00370E85 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -78,9 +81,8 @@
 		7EA99ADF18D8CADF00370E85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7EA99AE118D8CADF00370E85 /* MenuReaderAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuReaderAppTests.m; sourceTree = "<group>"; };
 		7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
-		7EA99AED18D8D2B700370E85 /* CMRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRViewController.h; sourceTree = "<group>"; };
-		7EA99AEE18D8D2B800370E85 /* CMRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRViewController.m; sourceTree = "<group>"; };
-		7EA99AFB18DCB28C00370E85 /* CMRDishViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CMRDishViewController.xib; sourceTree = "<group>"; };
+		7EA99AED18D8D2B700370E85 /* CMRImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRImagePickerViewController.h; sourceTree = "<group>"; };
+		7EA99AEE18D8D2B800370E85 /* CMRImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRImagePickerViewController.m; sourceTree = "<group>"; };
 		7ED34D4118EDDB4900ED3F27 /* Server.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
 		7EF6EACD18EC6B1C0003C679 /* CMRJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMRJSONParser.h; sourceTree = "<group>"; };
 		7EF6EACE18EC6B1C0003C679 /* CMRJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMRJSONParser.m; sourceTree = "<group>"; };
@@ -130,6 +132,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7E5106E518F2036E00F9AC87 /* UI Components */ = {
+			isa = PBXGroup;
+			children = (
+				7E5106E618F203B700F9AC87 /* CMRImageOverlayDarkRectView.h */,
+				7E5106E718F203B700F9AC87 /* CMRImageOverlayDarkRectView.m */,
+				7E15720418E0C35B007DE1F6 /* CMRCropRectView.h */,
+				7E15720518E0C35B007DE1F6 /* CMRCropRectView.m */,
+				7E5106E218F2035D00F9AC87 /* CMRHelperLabel.h */,
+				7E5106E318F2035D00F9AC87 /* CMRHelperLabel.m */,
+			);
+			name = "UI Components";
+			sourceTree = "<group>";
+		};
+		7E5106E918F203CE00F9AC87 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7EA99AED18D8D2B700370E85 /* CMRImagePickerViewController.h */,
+				7EA99AEE18D8D2B800370E85 /* CMRImagePickerViewController.m */,
+				7EF6EAEA18EDC16C0003C679 /* CMRSearchTableViewController.h */,
+				7EF6EAEB18EDC16C0003C679 /* CMRSearchTableViewController.m */,
+				7E15720718E47F6F007DE1F6 /* CMRDishTableViewController.h */,
+				7E15720818E47F70007DE1F6 /* CMRDishTableViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
 		7EA99AAA18D8CADE00370E85 = {
 			isa = PBXGroup;
 			children = (
@@ -165,21 +193,17 @@
 		7EA99ABE18D8CADE00370E85 /* MenuReaderApp */ = {
 			isa = PBXGroup;
 			children = (
-				7E15720F18E78409007DE1F6 /* OverlayView.xib */,
 				7EA99AC718D8CADE00370E85 /* CMRAppDelegate.h */,
-				7EA99AED18D8D2B700370E85 /* CMRViewController.h */,
-				7EA99AEE18D8D2B800370E85 /* CMRViewController.m */,
-				7EF6EAEA18EDC16C0003C679 /* CMRSearchTableViewController.h */,
-				7EF6EAEB18EDC16C0003C679 /* CMRSearchTableViewController.m */,
-				7E15720418E0C35B007DE1F6 /* CMRRectView.h */,
-				7E15720518E0C35B007DE1F6 /* CMRRectView.m */,
 				7EA99AC818D8CADE00370E85 /* CMRAppDelegate.m */,
 				7EA99AEB18D8CB8500370E85 /* Storyboard.storyboard */,
-				7E15720718E47F6F007DE1F6 /* CMRTableViewController.h */,
-				7E15720818E47F70007DE1F6 /* CMRTableViewController.m */,
+				7E5106E918F203CE00F9AC87 /* View Controllers */,
+				7E5106E518F2036E00F9AC87 /* UI Components */,
+				7EF6EACD18EC6B1C0003C679 /* CMRJSONParser.h */,
+				7EF6EACE18EC6B1C0003C679 /* CMRJSONParser.m */,
+				7EF6EAD018EC7EAC0003C679 /* CMRSection.h */,
+				7EF6EAD118EC7EAD0003C679 /* CMRSection.m */,
 				7EF6EAE518EC97320003C679 /* Model */,
 				7EF6EAE918ECF91B0003C679 /* TableViewCells */,
-				7EA99AFB18DCB28C00370E85 /* CMRDishViewController.xib */,
 				7EA99ACD18D8CADF00370E85 /* Images.xcassets */,
 				7EA99ACA18D8CADE00370E85 /* MenuReaderApp.xcdatamodeld */,
 				7EA99ABF18D8CADE00370E85 /* Supporting Files */,
@@ -219,8 +243,6 @@
 		7EF6EAE518EC97320003C679 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7EF6EACD18EC6B1C0003C679 /* CMRJSONParser.h */,
-				7EF6EACE18EC6B1C0003C679 /* CMRJSONParser.m */,
 				7EF6EAE218EC92FF0003C679 /* CMRSimilar.h */,
 				7EF6EAE318EC92FF0003C679 /* CMRSimilar.m */,
 				7EF6EADF18EC920B0003C679 /* CMRTranslation.h */,
@@ -231,10 +253,8 @@
 				7EF6EADA18EC870B0003C679 /* CMRReview.m */,
 				7EF6EAD618EC80C20003C679 /* CMRDish.h */,
 				7EF6EAD718EC80C20003C679 /* CMRDish.m */,
-				7EF6EAD018EC7EAC0003C679 /* CMRSection.h */,
 				7EF6EAD318EC7F030003C679 /* CMRImage.h */,
 				7EF6EAD418EC7F030003C679 /* CMRImage.m */,
-				7EF6EAD118EC7EAD0003C679 /* CMRSection.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -330,8 +350,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EA99AC318D8CADE00370E85 /* InfoPlist.strings in Resources */,
-				7EA99AFD18DCB28C00370E85 /* CMRDishViewController.xib in Resources */,
-				7E15721018E78409007DE1F6 /* OverlayView.xib in Resources */,
 				7EA99ACE18D8CADF00370E85 /* Images.xcassets in Resources */,
 				7EA99AEC18D8CB8500370E85 /* Storyboard.storyboard in Resources */,
 			);
@@ -353,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EA99ACC18D8CADE00370E85 /* MenuReaderApp.xcdatamodeld in Sources */,
+				7E5106E418F2035D00F9AC87 /* CMRHelperLabel.m in Sources */,
 				7EA99AC518D8CADE00370E85 /* main.m in Sources */,
 				7EF6EADB18EC870B0003C679 /* CMRReview.m in Sources */,
 				7EA99AC918D8CADE00370E85 /* CMRAppDelegate.m in Sources */,
@@ -360,13 +379,14 @@
 				7EF6EACF18EC6B1C0003C679 /* CMRJSONParser.m in Sources */,
 				7EF6EAD218EC7EAD0003C679 /* CMRSection.m in Sources */,
 				7EF6EAEC18EDC16C0003C679 /* CMRSearchTableViewController.m in Sources */,
-				7EA99AF018D8D2B800370E85 /* CMRViewController.m in Sources */,
+				7EA99AF018D8D2B800370E85 /* CMRImagePickerViewController.m in Sources */,
 				7EF6EAD518EC7F030003C679 /* CMRImage.m in Sources */,
+				7E5106E818F203B700F9AC87 /* CMRImageOverlayDarkRectView.m in Sources */,
 				7EF6EAE418EC92FF0003C679 /* CMRSimilar.m in Sources */,
-				7E15720918E47F70007DE1F6 /* CMRTableViewController.m in Sources */,
+				7E15720918E47F70007DE1F6 /* CMRDishTableViewController.m in Sources */,
 				7E15720C18E74220007DE1F6 /* CMRReviewTableViewCell.m in Sources */,
 				7EF6EAD818EC80C20003C679 /* CMRDish.m in Sources */,
-				7E15720618E0C35B007DE1F6 /* CMRRectView.m in Sources */,
+				7E15720618E0C35B007DE1F6 /* CMRCropRectView.m in Sources */,
 				7EF6EAE818ECB53D0003C679 /* CMRDishTableViewCell.m in Sources */,
 				7EF6EADE18EC91450003C679 /* CMRTag.m in Sources */,
 			);
