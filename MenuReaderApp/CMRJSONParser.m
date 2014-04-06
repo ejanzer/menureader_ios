@@ -17,7 +17,28 @@
 
 @implementation CMRJSONParser
 
-- (NSArray *)parseJSON:(id)jsonObject {
+- (NSArray *)parseJSONData:(NSData *)jsonData error:(NSError *__autoreleasing *)error {
+    
+    NSArray *sections = nil;
+    
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:error];
+    
+    if (jsonObject) {
+        if ([jsonObject isKindOfClass:[NSDictionary class]]) {
+            sections = [self parseJSON:jsonObject];
+        } else {
+            NSLog(@"Error: jsonObject is not a dictionary. jsonObject: %@ is type: %@", jsonObject, [jsonObject class]);
+        }
+    } else if (error) {
+        NSLog(@"Error parsing JSON data %@: %@", jsonData, *error);
+    } else {
+        NSLog(@"NSJSONSerialization did not return jsonObject or an error.");
+    }
+    
+    return sections;
+}
+
+- (NSArray *)parseJSON:(NSDictionary *)jsonObject {
     NSMutableArray *sectionObjects = [NSMutableArray array];
     
     id object = [jsonObject objectForKey:@"dish"];

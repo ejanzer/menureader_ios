@@ -69,54 +69,6 @@
             UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor grayColor]];
             [self.tableView addSubview:errorLabel];
         }
-        /* Move to CMR view controller.
-        if (self.dishJSONData) {
-            
-            id jsonObject = [NSJSONSerialization JSONObjectWithData:self.dishJSONData options:NSJSONReadingMutableContainers error:&error];
-            
-            if (!jsonObject) {
-                // TODO: Create function that creates a label given some text.
-                NSLog(@"jsonObject does not exist. Error is %@", error);
-                
-            } else if ([jsonObject objectForKey:@"error"]) {
-                NSLog(@"Error received from server.");
-                
-                NSString *labelText = [jsonObject objectForKey:@"error"];
-                UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor whiteColor]];
-                [self.tableView addSubview:errorLabel];
-                
-            } else {
-                CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
-                self.sections = [jsonParser parseJSON:jsonObject withImage:self.searchImage];
-                
-                if (self.searchImage) {
-                    CMRImage *searchImage = [[CMRImage alloc] initWithImage:self.searchImage];
-                    NSArray *images = [NSArray arrayWithObject:searchImage];
-                    
-                    CMRSection *imageSection = [[CMRSection alloc] initWithCells:images section:@"Search" cellId:@"ImageCell" type:CMRCellTypeImage];
-                    
-                    // TODO: Add to beginning of array instead of end?
-                    [self.sections insertObject:imageSection atIndex:0];
-                }
-            }
-         
-            if (self.sections) {
-                CMRSection *first = [self.sections objectAtIndex:0];
-                if ([self.sections count] > 1 && [first.sectionTitle isEqualToString:@"Search"]) {
-                    CMRSection *second = [self.sections objectAtIndex:1];
-                    if ([second.sectionTitle isEqualToString:@"Dish"]) {
-                        self.navItem.title = second.sectionTitle;
-                    } else {
-                        self.navItem.title = first.sectionTitle;
-                    }
-                } else {
-                    self.navItem.title = first.sectionTitle;
-                }
-            }
-        } else {
-            self.navItem.title = @"Search";
-        }
-        */
     }
 }
 
@@ -250,38 +202,6 @@
     }
 }
 
-- (NSArray *)parseJSON:JSONData {
-    NSArray *sections = @[];
-    if (JSONData) {
-        NSError *error = nil;
-        id jsonObject = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableContainers error:&error];
-        
-        if (!jsonObject) {
-            // TODO: Create function that creates a label given some text.
-            NSLog(@"jsonObject does not exist. Error is %@", error);
-            self.nextControllerErrorMessage = @"No data received from server.";
-            /*
-             NSString *labelText = @"No data received from server.";
-             
-             UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor grayColor]];
-             [self.tableView addSubview:errorLabel];
-             */
-        } else if ([jsonObject objectForKey:@"error"]) {
-            NSLog(@"Error received from server.");
-            self.nextControllerErrorMessage = [jsonObject objectForKey:@"error"];
-            /*
-             NSString *labelText = [jsonObject objectForKey:@"error"];
-             UILabel *errorLabel = [self createErrorLabel:labelText frame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) color:[UIColor whiteColor]];
-             [self.tableView addSubview:errorLabel];
-             */
-        } else {
-            CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
-            sections = [jsonParser parseJSON:jsonObject];
-        }
-    }
-    return sections;
-}
-
 
 - (void)loadNextDishViewController: (NSString *)urlString {
     NSString *url = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -291,33 +211,63 @@
     // Create session task.
     [[session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        NSArray *sections = [self parseJSON:data];
-        self.nextControllerSections = sections;
-        
-        CMRSection *firstSection = [sections objectAtIndex:0];
-        if ([firstSection.sectionTitle isEqualToString:@"Dish"]) {
-            // queue dish segue
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self performSegueWithIdentifier:@"similarDishSegue" sender:self];
-            });
+        if (data && response) {
+            NSError *jsonError = nil;
+            CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
+            NSArray *sections = [jsonParser parseJSONData:data error:&jsonError];
             
+            if (sections) {
+                self.nextControllerSections = sections;
+                CMRSection *firstSection = [sections objectAtIndex:0];
+                if ([firstSection.sectionTitle isEqualToString:@"Dish"]) {
+                    // queue dish segue
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self performSegueWithIdentifier:@"similarDishSegue" sender:self];
+                    });
+                    
+                } else {
+                    // If it's not a dish, it's another search VC.
+                    // Initialize another search VC and push onto nav view controller.
+                    [self queueNewSearchTableViewControllerWithSections:sections errorMessage:nil];
+                }
+
+            } else if (error) {
+                NSLog(@"Error parsing JSON data: %@, error: %@", data, jsonError);
+                [self queueNewSearchTableViewControllerWithSections:nil errorMessage:@"No results found"];
+            } else {
+                NSLog(@"NSJSONSerialization did not return JSON data or an error. Data: %@", data);
+                [self queueNewSearchTableViewControllerWithSections:nil errorMessage:@"No results found."];
+            }
+
+        } else if (error) {
+            NSLog(@"There was an error with the HTTP request. Error: %@", error);
+            [self queueNewSearchTableViewControllerWithSections:nil errorMessage:@"Unable to reach server."];
         } else {
-            // If it's not a dish, it's another search VC.
-            // Initialize another search VC and push onto nav view controller.
-            UIStoryboard *storyboard = self.storyboard;
-            CMRTableViewController *newSearchVC = [storyboard instantiateViewControllerWithIdentifier:@"searchTableViewController"];
-            
-            [newSearchVC setSections:[self.nextControllerSections mutableCopy]];
-            
-            UINavigationController *navController = self.navigationController;
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [navController pushViewController:newSearchVC animated:YES];
-            });
+            NSLog(@"There was a problem with the HTTP request but no error was returned. Data: %@, response: %@", data, response);
+            [self queueNewSearchTableViewControllerWithSections:nil errorMessage:@"Unable to reach server."];
         }
-         
+        
     }] resume];
          
+}
+
+- (void)queueNewSearchTableViewControllerWithSections:(NSArray *)sections errorMessage:(NSString *)errorMessage {
+    UIStoryboard *storyboard = self.storyboard;
+    CMRTableViewController *newSearchVC = [storyboard instantiateViewControllerWithIdentifier:@"searchTableViewController"];
+    
+    if (sections) {
+        [newSearchVC setSections:[self.nextControllerSections mutableCopy]];
+    }
+    
+    if (errorMessage) {
+        [newSearchVC setErrorMessage:errorMessage];
+    }
+    
+    UINavigationController *navController = self.navigationController;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [navController pushViewController:newSearchVC animated:YES];
+    });
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

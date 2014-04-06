@@ -10,6 +10,6 @@
 
 @interface CMRJSONParser : NSObject
 
--(NSArray *)parseJSON:(id)jsonObject;
+- (NSArray *)parseJSONData:(NSData *)jsonData error:(NSError **)error;
 
 @end
