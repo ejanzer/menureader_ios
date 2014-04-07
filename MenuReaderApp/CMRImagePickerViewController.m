@@ -245,6 +245,8 @@
     // Create upload task.
     NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:imageData completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
+        self.sections = nil;
+        
         if (data && response) {
             CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
             NSError *jsonError = nil;
