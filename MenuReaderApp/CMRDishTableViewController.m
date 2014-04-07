@@ -55,9 +55,6 @@
 {
     [super viewDidLoad];
     if (self) {
-        if (self.errorMessage) {
-            // do stuff
-        }
         if (self.sections) {
             self.navigationItem.title = @"Dish";
             
@@ -70,8 +67,11 @@
                 
                 [self.sections insertObject:imageSection atIndex:0];
             }
+        } else if (self.errorMessage) {
+            CMRHelperLabel *errorLabel = [[CMRHelperLabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) text:self.errorMessage color:[UIColor grayColor]];
+            [self.tableView addSubview:errorLabel];
         } else {
-            CMRHelperLabel *errorLabel = [[CMRHelperLabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) text:@"No data received from server." color:[UIColor grayColor]];
+            CMRHelperLabel *errorLabel = [[CMRHelperLabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) text:self.errorMessage color:[UIColor grayColor]];
             [self.tableView addSubview:errorLabel];
         }
     }
@@ -155,13 +155,17 @@
                 }
             } else if (jsonError) {
                 NSLog(@"There was an error parsing JSON data %@: %@", data, error);
+                [self queueNextSearchTableViewControllerWithSections:nil errorMessage:@"No results found."];
             } else {
                 NSLog(@"NSJSONSerialization did not return JSON data or an error. Data: %@", data);
+                [self queueNextSearchTableViewControllerWithSections:nil errorMessage:@"No results found."];
             }
         } else if (error) {
             NSLog(@"There was an error with the HTTP request: %@", error);
+            [self queueNextSearchTableViewControllerWithSections:nil errorMessage:@"Unable to reach server."];
         } else {
             NSLog(@"There was a problem with the HTTP request, but no error was returned. Data: %@, response: %@", data, response);
+            [self queueNextSearchTableViewControllerWithSections:nil errorMessage:@"Unable to reach server."];
         }
     }] resume];
     
