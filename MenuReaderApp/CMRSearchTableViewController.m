@@ -200,10 +200,11 @@
     [[session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         if (data && response) {
+            self.nextControllerSections = nil;
+            self.nextControllerErrorMessage = nil;
             NSError *jsonError = nil;
             CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
             NSArray *sections = [jsonParser parseJSONData:data error:&jsonError];
-            
             if (sections) {
                 self.nextControllerSections = sections;
                 CMRSection *firstSection = [sections objectAtIndex:0];

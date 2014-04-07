@@ -138,6 +138,8 @@
     [[session dataTaskWithURL:[NSURL URLWithString:url] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         if (data && response) {
+            self.nextControllerSections = nil;
+            self.nextControllerErrorMessage = nil;
             CMRJSONParser *jsonParser = [[CMRJSONParser alloc] init];
             NSError *jsonError = nil;
             NSArray *sections = [jsonParser parseJSONData:data error:&jsonError];
