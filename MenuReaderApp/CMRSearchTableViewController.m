@@ -50,9 +50,6 @@
     [super viewDidLoad];
     
     if (self) {
-        if (self.nextControllerErrorMessage) {
-            // do stuff
-        }
         if (self.sections) {
             self.navigationItem.title = @"Search";
             
@@ -65,6 +62,9 @@
                 
                 [self.sections insertObject:imageSection atIndex:0];
             }
+        } else if (self.errorMessage) {
+            CMRHelperLabel *errorLabel = [[CMRHelperLabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) text:self.errorMessage color:[UIColor grayColor]];
+            [self.tableView addSubview:errorLabel];
         } else {
             CMRHelperLabel *errorLabel = [[CMRHelperLabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, self.tableView.frame.size.height/2) text:@"No data received from server." color:[UIColor grayColor]];
             [self.tableView addSubview:errorLabel];
