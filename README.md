@@ -1,6 +1,6 @@
 # Chinese Menu Reader
 
-Chinese Menu Reader is an iOS application that takes a picture of a dish name on a Chinese menu and gives you some information about the dish, including a translation, a description, user reviews and tags.
+Chinese Menu Reader is a mobile application that takes a picture of a dish name on a Chinese menu and gives you some information about the dish, including a translation, a description, user reviews and tags.
 
 This repository has the Xcode project for the iOS application. For the server code, [check out this repository](https://github.com/ejanzer/menureader).
 
